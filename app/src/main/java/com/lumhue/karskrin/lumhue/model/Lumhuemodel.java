@@ -7,26 +7,55 @@ import java.util.Map;
 
 public class Lumhuemodel {
 
-    @SerializedName("bridgeIsOnline")
+    @SerializedName("id")
     @Expose
-    private Boolean bridgeIsOnline;
-    @SerializedName("lights")
+    private String id;
+    @SerializedName("reachable")
     @Expose
-    private Map<Integer, Light> lights;
+    private Integer reachable;
+    @SerializedName("on")
+    @Expose
+    private Integer on;
 
-    public Boolean getBridgeIsOnline() {
-        return bridgeIsOnline;
+    /**
+     * @return The id
+     */
+    public String getId() {
+        return id;
     }
 
-    public void setBridgeIsOnline(Boolean bridgeIsOnline) {
-        this.bridgeIsOnline = bridgeIsOnline;
+    /**
+     * @param id The id
+     */
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public Map<Integer, Light> getLights() {
-        return lights;
+    /**
+     * @return The reachable
+     */
+    public Integer getReachable() {
+        return reachable;
     }
 
-    public void setLights(Map<Integer, Light> lights) {
-        this.lights = lights;
+    /**
+     * @param reachable The reachable
+     */
+    public void setReachable(Integer reachable) {
+        this.reachable = reachable;
+    }
+
+    /**
+     * @return The on
+     */
+    public Integer getOn() {
+        return on;
+    }
+
+    /**
+     * @param on The on
+     */
+    public void setOn(Integer on) {
+        this.on = on;
     }
 }

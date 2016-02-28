@@ -20,8 +20,17 @@
         android:layout_alignParentStart="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="47dp"
-        android:text="Refresh" />
-
+        android:text="Get" />
+    <Button
+        android:id="@+id/buttonPost"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="47dp"
+        android:text="Post" />
     <ProgressBar
         android:id="@+id/pb"
         style="?android:attr/progressBarStyleSmall"
