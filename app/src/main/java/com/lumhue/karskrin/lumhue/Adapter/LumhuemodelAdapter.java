@@ -12,8 +12,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.lumhue.karskrin.lumhue.API.Lumhueapi;
+import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
-import com.lumhue.karskrin.lumhue.View.Lights;
+import com.lumhue.karskrin.lumhue.View.LightsFragment;
 import com.lumhue.karskrin.lumhue.model.Lumhuemodel;
 
 import java.util.List;
@@ -25,11 +26,11 @@ import retrofit.client.Response;
 
 public class LumhuemodelAdapter extends ArrayAdapter<Lumhuemodel> {
     List<Lumhuemodel> lights = null;
-    Lights context;
+    LightsFragment context;
     int layoutResourceId;
     String API = "https://lumhue.mr-calen.eu";
 
-    public LumhuemodelAdapter(Lights context, int resource, List<Lumhuemodel> objects) {
+    public LumhuemodelAdapter(LightsFragment context, int resource, List<Lumhuemodel> objects) {
         super(context.getActivity().getBaseContext(), resource, objects);
         this.layoutResourceId = resource;
         this.context = context;
@@ -85,7 +86,7 @@ public class LumhuemodelAdapter extends ArrayAdapter<Lumhuemodel> {
             @Override
             public void success(List<Lumhuemodel> lumhuemodels, Response response) {
                 holder.progressBar.setVisibility(View.INVISIBLE);
-                context.get();
+                context.get(MainActivity.token);
             }
 
             @Override
@@ -93,10 +94,9 @@ public class LumhuemodelAdapter extends ArrayAdapter<Lumhuemodel> {
                 String tv = error.getMessage();
                 Log.v("LIGHTS fragment", tv);
                 holder.progressBar.setVisibility(View.INVISIBLE);
-                context.get();
+                context.get(MainActivity.token);
             }
         });
-
     }
 
     static class LumhuemodelHolder {

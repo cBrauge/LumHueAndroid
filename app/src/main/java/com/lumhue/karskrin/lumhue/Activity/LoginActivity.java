@@ -15,15 +15,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lumhue.karskrin.lumhue.API.Lumhueapi;
+import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
+import com.lumhue.karskrin.lumhue.model.LoginResponseDTO;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
-
     @InjectView(R.id.input_email)
     EditText _emailText;
     @InjectView(R.id.input_password)
@@ -32,10 +38,12 @@ public class LoginActivity extends AppCompatActivity {
     Button _loginButton;
     @InjectView(R.id.link_signup)
     TextView _signupLink;
+    private String API;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        API = getResources().getString(R.string.api);
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
 
@@ -51,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                // Start the Signup activity
+                // Start the Signin activity
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
@@ -77,26 +85,36 @@ public class LoginActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        // TODO: Implement your own authentication logic here.
+        post(email, password, progressDialog);
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
     }
 
+    private void post(final String email, final String password, final ProgressDialog progressDialog) {
+        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
+        final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
+        lumhueapi.postLogin(email, password, new Callback<LoginResponseDTO>() {
+            @Override
+            public void success(LoginResponseDTO dto, Response response) {
+                Log.v("Login Activity", dto.getToken());
+                MainActivity.token = dto.getToken();
+                onLoginSuccess();
+            }
 
+            @Override
+            public void failure(RetrofitError error) {
+                String tv = error.getMessage();
+                Log.v("Login Activity", tv);
+                onLoginFailed();
+            }
+        });
+        progressDialog.dismiss();
+
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
 
-                // TODO: Implement successful signup logic here
                 // By default we just finish the Activity and log them in automatically
                 this.finish();
             }
@@ -127,14 +145,14 @@ public class LoginActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError("Enter a valid email address");
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+        if (password.isEmpty() || password.length() < 6) {
+            _passwordText.setError("Password does not match minimum security");
             valid = false;
         } else {
             _passwordText.setError(null);

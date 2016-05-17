@@ -7,7 +7,9 @@ import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
@@ -15,7 +17,7 @@ import retrofit.http.Part;
 public interface Lumhueapi {
     @GET("/lights")
         //here is the other url part.best way is to start using /
-    void getLights(Callback<List<Lumhuemodel>> response);
+    void getLights(@Header("access_token") String token, Callback<List<Lumhuemodel>> response);
     //response is the response from the server which is now in the POJO
     @Multipart
     @POST("/lights")
@@ -24,6 +26,12 @@ public interface Lumhueapi {
     //response is the response from the server which is now in the POJO
 
     // Function to login
-    @POST("/login")
+    @FormUrlEncoded
+    @POST("/signin")
     void postLogin(@Field("email") String email, @Field("password") String password, Callback<LoginResponseDTO> response);
+
+    // Function to register
+    @FormUrlEncoded
+    @POST("/signup")
+    void postSignup(@Field("name") String name, @Field("email") String email, @Field("password") String password, Callback<LoginResponseDTO> response);
 }

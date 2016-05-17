@@ -14,14 +14,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lumhue.karskrin.lumhue.API.Lumhueapi;
+import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
+import com.lumhue.karskrin.lumhue.model.LoginResponseDTO;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
-
     @InjectView(R.id.input_name)
     EditText _nameText;
     @InjectView(R.id.input_email)
@@ -32,10 +38,12 @@ public class SignupActivity extends AppCompatActivity {
     Button _signupButton;
     @InjectView(R.id.link_login)
     TextView _loginLink;
+    private String API;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        API = getResources().getString(R.string.api);
         setContentView(R.layout.activity_signup);
         ButterKnife.inject(this);
 
@@ -75,20 +83,29 @@ public class SignupActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        // TODO: Implement your own signup logic here.
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+        post(name, email, password, progressDialog);
     }
 
+    private void post(final String name, final String email, final String password, final ProgressDialog progressDialog) {
+        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
+        final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
+        lumhueapi.postSignup(name, email, password, new Callback<LoginResponseDTO>() {
+            @Override
+            public void success(LoginResponseDTO dto, Response response) {
+                Log.v("Signup Activity", dto.getToken());
+                MainActivity.token = dto.getToken();
+                onSignupSuccess();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                String tv = error.getMessage();
+                Log.v("Signup Activity", tv);
+                onSignupFailed();
+            }
+        });
+        progressDialog.dismiss();
+    }
 
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
@@ -110,21 +127,21 @@ public class SignupActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
-            _nameText.setError("at least 3 characters");
+            _nameText.setError("At least 3 characters");
             valid = false;
         } else {
             _nameText.setError(null);
         }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError("Enter a valid email address");
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+        if (password.isEmpty() || password.length() < 6) {
+            _passwordText.setError("Password does not match minimum security");
             valid = false;
         } else {
             _passwordText.setError(null);

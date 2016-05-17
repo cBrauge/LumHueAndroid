@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import com.lumhue.karskrin.lumhue.Activity.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

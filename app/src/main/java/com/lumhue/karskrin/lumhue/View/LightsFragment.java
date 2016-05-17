@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 
 import com.lumhue.karskrin.lumhue.API.Lumhueapi;
 import com.lumhue.karskrin.lumhue.Adapter.LumhuemodelAdapter;
+import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
 import com.lumhue.karskrin.lumhue.model.Lumhuemodel;
 
@@ -24,10 +25,10 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class Lights extends Fragment {
-    String API = "https://lumhue.mr-calen.eu";
+public class LightsFragment extends Fragment {
     Button click;
     ProgressBar pbar;
+    private String API;
     private LinearLayout mLayout;
     private ListView mListView;
     private ArrayList<Lumhuemodel> adapter;
@@ -36,7 +37,7 @@ public class Lights extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
+        API = getResources().getString(R.string.api);
     }
 
     @Override
@@ -59,21 +60,21 @@ public class Lights extends Fragment {
         adapterr = new LumhuemodelAdapter(this, R.layout.listview_light_row, adapter);
         mListView.setAdapter(adapterr);
         pbar.setVisibility(View.INVISIBLE);
-        get();
+        get(MainActivity.token);
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                get();
+                get(MainActivity.token);
             }
         });
     }
 
-    public void get() {
+    public void get(final String token) {
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
         final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
         pbar.setVisibility(View.VISIBLE);
         adapterr.clear();
-        lumhueapi.getLights(new Callback<List<Lumhuemodel>>() {
+        lumhueapi.getLights(token, new Callback<List<Lumhuemodel>>() {
             @Override
             public void success(List<Lumhuemodel> lumhuemodel, Response response) {
                 for (Lumhuemodel entry : lumhuemodel) {
