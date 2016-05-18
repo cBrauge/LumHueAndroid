@@ -5,6 +5,7 @@ package com.lumhue.karskrin.lumhue.Activity;
  */
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -110,6 +111,8 @@ public class SignupActivity extends AppCompatActivity {
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
+        Intent intent = new Intent(getApplicationContext(), LightsActivity.class);
+        startActivity(intent);
         finish();
     }
 

@@ -28,7 +28,7 @@ public class LumhuemodelAdapter extends ArrayAdapter<Lumhuemodel> {
     List<Lumhuemodel> lights = null;
     LightsFragment context;
     int layoutResourceId;
-    String API = "https://lumhue.mr-calen.eu";
+    String API = "https://karskrin.mr-calen.eu/api";
 
     public LumhuemodelAdapter(LightsFragment context, int resource, List<Lumhuemodel> objects) {
         super(context.getActivity().getBaseContext(), resource, objects);
@@ -51,7 +51,7 @@ public class LumhuemodelAdapter extends ArrayAdapter<Lumhuemodel> {
             holder.swi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    lights.get(position).setOn(isChecked ? 1 : 0);
+                    lights.get(position).state.on = isChecked;
                 }
             });
             holder.send = (Button) row.findViewById(R.id.send);
@@ -71,9 +71,9 @@ public class LumhuemodelAdapter extends ArrayAdapter<Lumhuemodel> {
         }
 
         Lumhuemodel model = lights.get(position);
-        holder.txtview.setText(model.getId() + " is "
-                + (model.getOn() == 1 ? "on" : "off"));
-        holder.swi.setChecked(model.getOn() == 1);
+        holder.txtview.setText(model.name + " is "
+                + (model.state.on ? "on" : "off"));
+        holder.swi.setChecked(model.state.on);
 
         return row;
     }
@@ -82,7 +82,7 @@ public class LumhuemodelAdapter extends ArrayAdapter<Lumhuemodel> {
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
         final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
         holder.progressBar.setVisibility(View.VISIBLE);
-        lumhueapi.postLights(Integer.valueOf(holder.model.getId()), holder.model.getOn(), new Callback<List<Lumhuemodel>>() {
+        lumhueapi.postLights(Integer.valueOf(1), 1/*holder.model.state.on */, new Callback<List<Lumhuemodel>>() {
             @Override
             public void success(List<Lumhuemodel> lumhuemodels, Response response) {
                 holder.progressBar.setVisibility(View.INVISIBLE);

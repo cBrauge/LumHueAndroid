@@ -9,15 +9,15 @@ import retrofit.Callback;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
-import retrofit.http.Header;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
+import retrofit.http.Query;
 
 public interface Lumhueapi {
     @GET("/lights")
         //here is the other url part.best way is to start using /
-    void getLights(@Header("access_token") String token, Callback<List<Lumhuemodel>> response);
+    void getLights(@Query("access_token") String token, Callback<List<Lumhuemodel>> response);
     //response is the response from the server which is now in the POJO
     @Multipart
     @POST("/lights")
