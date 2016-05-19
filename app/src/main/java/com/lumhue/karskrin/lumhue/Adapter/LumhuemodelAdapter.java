@@ -1,28 +1,20 @@
 package com.lumhue.karskrin.lumhue.Adapter;
 
-import android.util.Log;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.ProgressBar;
-import android.widget.Switch;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.lumhue.karskrin.lumhue.API.Lumhueapi;
-import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
 import com.lumhue.karskrin.lumhue.View.LightsFragment;
 import com.lumhue.karskrin.lumhue.model.Lumhuemodel;
+import com.lumhue.karskrin.lumhue.model.Rgb;
 
 import java.util.List;
 
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class LumhuemodelAdapter extends ArrayAdapter<Lumhuemodel> {
     List<Lumhuemodel> lights = null;
@@ -46,64 +38,31 @@ public class LumhuemodelAdapter extends ArrayAdapter<Lumhuemodel> {
             row = inflater.inflate(layoutResourceId, parent, false);
 
             holder = new LumhuemodelHolder();
-            holder.swi = (Switch) row.findViewById(R.id.swiRow);
             holder.txtview = (TextView) row.findViewById(R.id.txtRow);
-            holder.swi.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    lights.get(position).state.on = isChecked;
-                }
-            });
-            holder.send = (Button) row.findViewById(R.id.send);
-            holder.progressBar = (ProgressBar) row.findViewById(R.id.progressBar);
-            holder.progressBar.setVisibility(View.INVISIBLE);
+            holder.colorCircle = (ImageView) row.findViewById(R.id.colorCircle);
+
             holder.model = lights.get(position);
+            Rgb rgb = holder.model.rgb;
+            int color = Color.rgb(rgb.r, rgb.g, rgb.b);
+            if (!holder.model.state.reachable)
+                color = 0;
+            holder.colorCircle.setColorFilter(color);
             final LumhuemodelHolder finalHolder = holder;
-            holder.send.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    post(finalHolder);
-                }
-            });
+
             row.setTag(holder);
         } else {
             holder = (LumhuemodelHolder) row.getTag();
         }
 
         Lumhuemodel model = lights.get(position);
-        holder.txtview.setText(model.name + " is "
-                + (model.state.on ? "on" : "off"));
-        holder.swi.setChecked(model.state.on);
+        holder.txtview.setText(model.name);
 
         return row;
     }
 
-    private void post(final LumhuemodelHolder holder) {
-        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
-        final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
-        holder.progressBar.setVisibility(View.VISIBLE);
-        lumhueapi.postLights(Integer.valueOf(1), 1/*holder.model.state.on */, new Callback<List<Lumhuemodel>>() {
-            @Override
-            public void success(List<Lumhuemodel> lumhuemodels, Response response) {
-                holder.progressBar.setVisibility(View.INVISIBLE);
-                context.get(MainActivity.token);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                String tv = error.getMessage();
-                Log.v("LIGHTS fragment", tv);
-                holder.progressBar.setVisibility(View.INVISIBLE);
-                context.get(MainActivity.token);
-            }
-        });
-    }
-
     static class LumhuemodelHolder {
         TextView txtview;
-        Switch swi;
-        Button send;
-        ProgressBar progressBar;
+        ImageView colorCircle;
         Lumhuemodel model;
     }
 }

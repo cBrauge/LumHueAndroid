@@ -1,17 +1,21 @@
 package com.lumhue.karskrin.lumhue.View;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.google.gson.Gson;
 import com.lumhue.karskrin.lumhue.API.Lumhueapi;
+import com.lumhue.karskrin.lumhue.Activity.LightActivity;
 import com.lumhue.karskrin.lumhue.Adapter.LumhuemodelAdapter;
 import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
@@ -60,13 +64,18 @@ public class LightsFragment extends Fragment {
         adapterr = new LumhuemodelAdapter(this, R.layout.listview_light_row, adapter);
         mListView.setAdapter(adapterr);
         pbar.setVisibility(View.INVISIBLE);
-        get(MainActivity.token);
-        click.setOnClickListener(new View.OnClickListener() {
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                get(MainActivity.token);
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
+                Intent intent = new Intent(getActivity(), LightActivity.class);
+                intent.putExtra("position", position);
+                intent.putExtra("model", new Gson().toJson(adapter.getItemAtPosition(position)));
+                startActivity(intent);
             }
         });
+
+        get(MainActivity.token);
     }
 
     public void get(final String token) {
