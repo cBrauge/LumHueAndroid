@@ -22,7 +22,7 @@ public interface Lumhueapi {
     @Multipart
     @POST("/lights")
     //here is the other url part.best way is to start using /
-    void postLights(@Part("id") Integer id, @Part("status") Integer status, Callback<List<Lumhuemodel>> response);
+    void postLights(@Query("access_token") String token, @Query("color") String rgb, @Part("id") Integer id, @Query("on") Boolean on, Callback<Lumhuemodel> response);
     //response is the response from the server which is now in the POJO
 
     // Function to login
