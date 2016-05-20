@@ -59,12 +59,12 @@ public class LightActivity extends AppCompatActivity {
         // Set color of the circle according to the color of the lamp
         final Rgb rgb = model.rgb;
         int color = Color.rgb(rgb.r, rgb.g, rgb.b);
-        if (!model.state.reachable)
+        if (!model.state.on)
             color = 0;
         colorCircle.setColorFilter(color);
 
         // Set initial position of switch on state of the light
-        switchOn.setChecked(model.state.reachable);
+        switchOn.setChecked(model.state.on);
 
         saveLight.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +93,7 @@ public class LightActivity extends AppCompatActivity {
                         model.rgb.b = cp.getBlue();
                         final Rgb rgb = model.rgb;
                         int color = Color.rgb(rgb.r, rgb.g, rgb.b);
-                        if (!model.state.reachable)
+                        if (!model.state.on || !model.state.reachable)
                             color = 0;
                         colorCircle.setColorFilter(color);
                         cp.dismiss();
@@ -106,7 +106,8 @@ public class LightActivity extends AppCompatActivity {
     private void post(final Lumhuemodel model, Boolean reachable) {
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
         final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
-        lumhueapi.postLights(MainActivity.token, "rgba(" + model.rgb.r + ", " + model.rgb.g + ", " + model.rgb.b + ")", position + 1, reachable, new Callback<Lumhuemodel>() {
+        Log.v("LIGHTS activity reach: ", reachable.toString());
+        lumhueapi.postLights(MainActivity.token, "rgba(" + model.rgb.r + ", " + model.rgb.g + ", " + model.rgb.b + ")", position + 1, reachable.toString(), new Callback<Lumhuemodel>() {
             @Override
             public void success(Lumhuemodel lumhuemodel, Response response) {
                 Log.v("LIGHTS activity", "It works");
