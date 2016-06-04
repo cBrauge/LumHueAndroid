@@ -21,6 +21,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".Activity.BaseActivity"
+            android:theme="@style/AppTheme.Dark" />
+        <activity
             android:name=".Activity.LoginActivity"
             android:theme="@style/AppTheme.Dark" />
         <activity

@@ -1,9 +1,10 @@
 package com.lumhue.karskrin.lumhue.Activity;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,7 +26,7 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LightActivity extends AppCompatActivity {
+public class LightActivity extends BaseActivity {
     @InjectView(R.id.SaveLight)
     Button saveLight;
     @InjectView(R.id.txtLight)
@@ -41,7 +42,10 @@ public class LightActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_light);
+        LayoutInflater inflater = (LayoutInflater) this
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View contentView = inflater.inflate(R.layout.activity_light, null, false);
+        mDrawerLayout.addView(contentView, 0);
         API = getResources().getString(R.string.api);
         ButterKnife.inject(this);
 
