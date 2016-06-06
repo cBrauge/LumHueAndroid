@@ -1,5 +1,6 @@
 package com.lumhue.karskrin.lumhue.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -7,9 +8,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.lumhue.karskrin.lumhue.Drawer.DrawerItemClickListener;
 import com.lumhue.karskrin.lumhue.Drawer.DrawerItemCustomAdapter;
 import com.lumhue.karskrin.lumhue.Drawer.ObjectDrawerItem;
 import com.lumhue.karskrin.lumhue.R;
@@ -40,7 +41,31 @@ public class BaseActivity extends AppCompatActivity {
         DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.listview_item_row, drawerItem);
         mDrawerList.setAdapter(adapter);
 
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = null;
+                switch (position) {
+                    case 0:
+                        intent = new Intent(getApplicationContext(), LightsActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    case 1:
+                        intent = new Intent(getApplicationContext(), LightsActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    case 2:
+                        intent = new Intent(getApplicationContext(), AmbiancesActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
             @Override

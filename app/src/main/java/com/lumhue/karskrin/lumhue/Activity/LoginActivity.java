@@ -1,5 +1,6 @@
 package com.lumhue.karskrin.lumhue.Activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +25,7 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends Activity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
     @InjectView(R.id.input_email)
@@ -41,11 +42,11 @@ public class LoginActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         API = getResources().getString(R.string.api);
-        //setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login);
         LayoutInflater inflater = (LayoutInflater) this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_login, null, false);
-        mDrawerLayout.addView(contentView, 0);
+        //mDrawerLayout.addView(contentView, 0);
         ButterKnife.inject(this);
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +66,8 @@ public class LoginActivity extends BaseActivity {
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });
+        _emailText.setText("dagues_p@yaka.epita.fr");
+        _passwordText.setText("coucou42");
     }
 
     public void login() {

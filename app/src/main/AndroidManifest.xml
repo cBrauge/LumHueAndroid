@@ -35,6 +35,9 @@
         <activity
             android:name=".Activity.LightActivity"
             android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".Activity.AmbiancesActivity"
+            android:theme="@style/AppTheme.Dark" />
     </application>
 
 </manifest>

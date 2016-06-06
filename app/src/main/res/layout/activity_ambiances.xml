@@ -7,11 +7,11 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.lumhue.karskrin.lumhue.Activity.LightsActivity">
+    tools:context="com.lumhue.karskrin.lumhue.Activity.AmbiancesActivity">
 
     <fragment
-        android:id="@+id/lightsFragment"
-        android:name="com.lumhue.karskrin.lumhue.View.LightsFragment"
+        android:id="@+id/ambiancesFragment"
+        android:name="com.lumhue.karskrin.lumhue.View.AmbiancesFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"

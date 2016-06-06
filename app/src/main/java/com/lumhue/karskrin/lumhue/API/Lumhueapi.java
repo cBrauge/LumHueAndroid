@@ -1,8 +1,10 @@
 package com.lumhue.karskrin.lumhue.API;
 
+import com.lumhue.karskrin.lumhue.model.AmbianceModel;
 import com.lumhue.karskrin.lumhue.model.LoginResponseDTO;
 import com.lumhue.karskrin.lumhue.model.Lumhuemodel;
 
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit.Callback;
@@ -32,4 +34,8 @@ public interface Lumhueapi {
     @FormUrlEncoded
     @POST("/signup")
     void postSignup(@Field("name") String name, @Field("email") String email, @Field("password") String password, Callback<LoginResponseDTO> response);
+
+    //Get the ambiances
+    @GET("/ambiance")
+    void getAmbiances(@Query("access_token") String token, Callback<HashMap<String, AmbianceModel>> response);
 }

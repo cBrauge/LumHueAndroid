@@ -1,5 +1,6 @@
 package com.lumhue.karskrin.lumhue.Activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +25,7 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class SignupActivity extends BaseActivity {
+public class SignupActivity extends Activity {
     private static final String TAG = "SignupActivity";
     @InjectView(R.id.input_name)
     EditText _nameText;
@@ -45,7 +46,8 @@ public class SignupActivity extends BaseActivity {
         LayoutInflater inflater = (LayoutInflater) this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_signup, null, false);
-        mDrawerLayout.addView(contentView, 0);
+        setContentView(R.layout.activity_signup);
+        //mDrawerLayout.addView(contentView, 0);
         ButterKnife.inject(this);
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
