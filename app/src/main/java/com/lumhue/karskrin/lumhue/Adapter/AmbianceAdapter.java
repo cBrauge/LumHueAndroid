@@ -1,6 +1,7 @@
 package com.lumhue.karskrin.lumhue.Adapter;
 
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.lumhue.karskrin.lumhue.R;
 import com.lumhue.karskrin.lumhue.View.AmbiancesFragment;
 import com.lumhue.karskrin.lumhue.model.Ambiance;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AmbianceAdapter extends ArrayAdapter<Ambiance> {
@@ -37,23 +39,19 @@ public class AmbianceAdapter extends ArrayAdapter<Ambiance> {
 
             holder = new AmbianceHolder();
             holder.txtview = (TextView) row.findViewById(R.id.txtRow);
-            holder.colorCircle1 = (ImageView) row.findViewById(R.id.colorCircle1);
-            holder.colorCircle2 = (ImageView) row.findViewById(R.id.colorCircle2);
-            holder.colorCircle3 = (ImageView) row.findViewById(R.id.colorCircle3);
-
+            holder.colorCircles.add((ImageView) row.findViewById(R.id.colorCircle1));
+            holder.colorCircles.add((ImageView) row.findViewById(R.id.colorCircle2));
+            holder.colorCircles.add((ImageView) row.findViewById(R.id.colorCircle3));
             holder.ambiance = ambiances.get(position);
-            int rgb1 = Color.parseColor(holder.ambiance.lights.get(0).lightscolors.get(0).rgbhex);
-            int rgb2 = Color.parseColor(holder.ambiance.lights.get(0).lightscolors.get(1).rgbhex);
-            int rgb3 = Color.parseColor(holder.ambiance.lights.get(0).lightscolors.get(2).rgbhex);
-            if (!holder.ambiance.lights.get(0).lightscolors.get(0).on)
-                rgb1 = 0;
-            if (!holder.ambiance.lights.get(0).lightscolors.get(0).on)
-                rgb2 = 0;
-            if (!holder.ambiance.lights.get(0).lightscolors.get(0).on)
-                rgb3 = 0;
-            holder.colorCircle1.setColorFilter(rgb1);
-            holder.colorCircle2.setColorFilter(rgb2);
-            holder.colorCircle3.setColorFilter(rgb3);
+
+            for (int i = 0; i < holder.colorCircles.size(); i++) {
+                int rgb = Color.parseColor(holder.ambiance.lights.get(0).lightscolors.get(i).rgbhex);
+                if (!holder.ambiance.lights.get(0).lightscolors.get(i).on)
+                    rgb = 0;
+                GradientDrawable gd = (GradientDrawable) holder.colorCircles.get(i).getDrawable();
+                gd.setColor(rgb);
+                gd.setStroke(1, Color.WHITE);
+            }
 
             final AmbianceHolder finalHolder = holder;
 
@@ -70,6 +68,7 @@ public class AmbianceAdapter extends ArrayAdapter<Ambiance> {
 
     static class AmbianceHolder {
         TextView txtview;
+        List<ImageView> colorCircles = new ArrayList<>();
         ImageView colorCircle1;
         ImageView colorCircle2;
         ImageView colorCircle3;

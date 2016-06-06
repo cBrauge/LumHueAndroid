@@ -2,6 +2,7 @@ package com.lumhue.karskrin.lumhue.Activity;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -65,8 +66,10 @@ public class LightActivity extends BaseActivity {
         int color = Color.rgb(rgb.r, rgb.g, rgb.b);
         if (!model.state.on)
             color = 0;
-        colorCircle.setColorFilter(color);
 
+        GradientDrawable gd = (GradientDrawable) colorCircle.getDrawable();
+        gd.setColor(color);
+        gd.setStroke(1, Color.WHITE);
         // Set initial position of switch on state of the light
         switchOn.setChecked(model.state.on);
 

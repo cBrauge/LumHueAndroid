@@ -1,6 +1,7 @@
 package com.lumhue.karskrin.lumhue.Adapter;
 
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,9 +45,12 @@ public class LumhuemodelAdapter extends ArrayAdapter<Lumhuemodel> {
             holder.model = lights.get(position);
             Rgb rgb = holder.model.rgb;
             int color = Color.rgb(rgb.r, rgb.g, rgb.b);
+
             if (!holder.model.state.reachable)
                 color = 0;
-            holder.colorCircle.setColorFilter(color);
+            GradientDrawable gd = (GradientDrawable) holder.colorCircle.getDrawable();
+            gd.setStroke(1, Color.WHITE);
+            gd.setColor(color);
             final LumhuemodelHolder finalHolder = holder;
 
             row.setTag(holder);
