@@ -72,7 +72,7 @@ public class AmbiancesFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
                 Intent intent = new Intent(getActivity(), AmbianceActivity.class);
                 intent.putExtra("position", position);
-                intent.putExtra("model", new Gson().toJson(adapter.getItemAtPosition(position)));
+                intent.putExtra("ambiance", new Gson().toJson(adapter.getItemAtPosition(position)));
                 startActivity(intent);
             }
         });
