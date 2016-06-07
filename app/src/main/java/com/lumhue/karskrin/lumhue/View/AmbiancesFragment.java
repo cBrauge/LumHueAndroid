@@ -1,6 +1,7 @@
 package com.lumhue.karskrin.lumhue.View;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.google.gson.Gson;
 import com.lumhue.karskrin.lumhue.API.Lumhueapi;
+import com.lumhue.karskrin.lumhue.Activity.AmbianceActivity;
 import com.lumhue.karskrin.lumhue.Adapter.AmbianceAdapter;
 import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
@@ -67,10 +70,10 @@ public class AmbiancesFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                /*Intent intent = new Intent(getActivity(), AmbianceActivity.class);
+                Intent intent = new Intent(getActivity(), AmbianceActivity.class);
                 intent.putExtra("position", position);
                 intent.putExtra("model", new Gson().toJson(adapter.getItemAtPosition(position)));
-                startActivity(intent);*/
+                startActivity(intent);
             }
         });
 

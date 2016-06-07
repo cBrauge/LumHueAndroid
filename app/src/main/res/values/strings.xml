@@ -22,4 +22,6 @@
     <string name="title_activity_drawer_layout">drawer_layout</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="title_activity_ambiance">AmbianceActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

@@ -38,6 +38,10 @@
         <activity
             android:name=".Activity.AmbiancesActivity"
             android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".Activity.AmbianceActivity"
+            android:label="@string/title_activity_ambiance"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
