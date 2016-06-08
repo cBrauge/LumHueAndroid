@@ -8,23 +8,33 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.lumhue.karskrin.lumhue.API.Lumhueapi;
+import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
 import com.lumhue.karskrin.lumhue.model.Ambiance;
+import com.lumhue.karskrin.lumhue.model.AmbianceApplyResponse;
 import com.lumhue.karskrin.lumhue.model.Light;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class AmbianceActivity extends AppCompatActivity {
 
@@ -111,9 +121,11 @@ public class AmbianceActivity extends AppCompatActivity {
         ImageView colorCircle3;
         Switch switchOn3;
         EditText stateDuration;
+        Button applyAmbiance;
         private Light lights;
         private Ambiance ambiance;
         private int position;
+        private String API;
         public PlaceholderFragment() {
         }
 
@@ -137,7 +149,7 @@ public class AmbianceActivity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_ambiance2, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-
+            API = getResources().getString(R.string.api);
             // Set name according to the name of the ambiance
             viewName = (TextView) rootView.findViewById(R.id.txtLight);
             switchOn1 = (Switch) rootView.findViewById(R.id.switch1);
@@ -147,6 +159,7 @@ public class AmbianceActivity extends AppCompatActivity {
             colorCircle2 = (ImageView) rootView.findViewById(R.id.colorCircle2);
             colorCircle3 = (ImageView) rootView.findViewById(R.id.colorCircle3);
             stateDuration = (EditText) rootView.findViewById(R.id.stateDuration);
+            applyAmbiance = (Button) rootView.findViewById(R.id.buttonApplyAmbiance);
             //viewName.setText(lights.);
 
             List<ImageView> circles = new ArrayList<>();
@@ -174,7 +187,32 @@ public class AmbianceActivity extends AppCompatActivity {
             stateDuration.setText(lights.duration + "");
             viewName.setText(ambiance.name + " (" + (position + 1) + "/" + ambiance.lights.size() + ")");
 
+            applyAmbiance.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    apply(ambiance);
+                }
+            });
+
             return rootView;
+        }
+
+        private void apply(final Ambiance ambiance) {
+            RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
+            final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
+            lumhueapi.applyAmbiance(MainActivity.token, ambiance.uniq_id, new Callback<AmbianceApplyResponse>() {
+                @Override
+                public void success(AmbianceApplyResponse ambianceApplyResponse, Response response) {
+                    Log.v("Ambiance activity", "it works");
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    String tv = error.getMessage();
+                    Log.v("Ambiances activity", tv + "");
+                }
+            });
+
         }
     }
 

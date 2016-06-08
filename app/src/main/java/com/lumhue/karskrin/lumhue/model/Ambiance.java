@@ -10,5 +10,5 @@ public class Ambiance {
 
     public String name;
     public List<Light> lights = new ArrayList<Light>();
-    public String uniqId;
+    public String uniq_id;
 }

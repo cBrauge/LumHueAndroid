@@ -104,20 +104,34 @@
                 android:layout_gravity="center_vertical|right" />
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/stateDuration"
-            android:layout_width="64dp"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:ems="10"
-            android:inputType="number" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/SaveLight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Save ambiance" />
+            <Button
+                android:id="@+id/buttonApplyAmbiance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="Apply ambiance" />
+
+            <EditText
+                android:id="@+id/stateDuration"
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:ems="10"
+                android:inputType="number" />
+
+            <Button
+                android:id="@+id/SaveLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Save ambiance" />
+        </LinearLayout>
 
     </LinearLayout>
 

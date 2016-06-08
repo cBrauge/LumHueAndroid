@@ -1,5 +1,6 @@
 package com.lumhue.karskrin.lumhue.API;
 
+import com.lumhue.karskrin.lumhue.model.AmbianceApplyResponse;
 import com.lumhue.karskrin.lumhue.model.AmbianceModel;
 import com.lumhue.karskrin.lumhue.model.LoginResponseDTO;
 import com.lumhue.karskrin.lumhue.model.Lumhuemodel;
@@ -38,4 +39,9 @@ public interface Lumhueapi {
     //Get the ambiances
     @GET("/ambiance")
     void getAmbiances(@Query("access_token") String token, Callback<HashMap<String, AmbianceModel>> response);
+
+    //Apply an ambiance
+    @FormUrlEncoded
+    @POST("/ambiance/apply")
+    void applyAmbiance(@Field("access_token") String token, @Field("ambiance_id") String id, Callback<AmbianceApplyResponse> response);
 }
