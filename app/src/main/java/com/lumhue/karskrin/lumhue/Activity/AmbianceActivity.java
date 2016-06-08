@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -109,6 +110,7 @@ public class AmbianceActivity extends AppCompatActivity {
         Switch switchOn2;
         ImageView colorCircle3;
         Switch switchOn3;
+        EditText stateDuration;
         private Light lights;
 
         public PlaceholderFragment() {
@@ -141,6 +143,7 @@ public class AmbianceActivity extends AppCompatActivity {
             colorCircle1 = (ImageView) rootView.findViewById(R.id.colorCircle1);
             colorCircle2 = (ImageView) rootView.findViewById(R.id.colorCircle2);
             colorCircle3 = (ImageView) rootView.findViewById(R.id.colorCircle3);
+            stateDuration = (EditText) rootView.findViewById(R.id.stateDuration);
             //viewName.setText(lights.);
 
             List<ImageView> circles = new ArrayList<>();
@@ -162,6 +165,9 @@ public class AmbianceActivity extends AppCompatActivity {
                 gd.setStroke(1, Color.WHITE);
                 switches.get(i).setChecked(lights.lightscolors.get(i).on);
             }
+
+            stateDuration.setText(lights.duration + "");
+
             return rootView;
         }
     }
