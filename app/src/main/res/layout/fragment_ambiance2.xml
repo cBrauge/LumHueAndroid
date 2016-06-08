@@ -67,7 +67,6 @@
                 android:id="@+id/colorCircle2"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginLeft="200dp"
                 android:src="@drawable/circleshape" />
 
         </LinearLayout>
