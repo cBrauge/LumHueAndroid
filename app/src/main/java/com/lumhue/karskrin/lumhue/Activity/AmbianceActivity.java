@@ -113,6 +113,7 @@ public class AmbianceActivity extends AppCompatActivity {
         EditText stateDuration;
         private Light lights;
         private Ambiance ambiance;
+        private int position;
         public PlaceholderFragment() {
         }
 
@@ -120,11 +121,12 @@ public class AmbianceActivity extends AppCompatActivity {
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(Light lights, Ambiance ambiance) {
+        public static PlaceholderFragment newInstance(Light lights, Ambiance ambiance, int position) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putString("lights", new Gson().toJson(lights));
             args.putString("ambiance", new Gson().toJson(ambiance));
+            args.putInt("position", position);
             fragment.setArguments(args);
             return fragment;
         }
@@ -158,6 +160,7 @@ public class AmbianceActivity extends AppCompatActivity {
             switches.add(switchOn3);
             lights = new Gson().fromJson(getArguments().getString("lights"), Light.class);
             ambiance = new Gson().fromJson(getArguments().getString("ambiance"), Ambiance.class);
+            position = getArguments().getInt("position");
             for (int i = 0; i < circles.size(); i++) {
                 int rgb = Color.parseColor(lights.lightscolors.get(i).rgbhex);
                 if (!lights.lightscolors.get(i).on)
@@ -169,7 +172,7 @@ public class AmbianceActivity extends AppCompatActivity {
             }
 
             stateDuration.setText(lights.duration + "");
-            viewName.setText(ambiance.name);
+            viewName.setText(ambiance.name + " (" + (position + 1) + "/" + ambiance.lights.size() + ")");
 
             return rootView;
         }
@@ -193,7 +196,7 @@ public class AmbianceActivity extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             Light light = ambiance.lights.get(position);
-            return PlaceholderFragment.newInstance(light, ambiance);
+            return PlaceholderFragment.newInstance(light, ambiance, position);
         }
 
         @Override
