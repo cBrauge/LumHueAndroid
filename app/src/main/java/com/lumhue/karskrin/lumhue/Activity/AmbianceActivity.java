@@ -27,6 +27,7 @@ import com.lumhue.karskrin.lumhue.R;
 import com.lumhue.karskrin.lumhue.model.Ambiance;
 import com.lumhue.karskrin.lumhue.model.AmbianceApplyResponse;
 import com.lumhue.karskrin.lumhue.model.Light;
+import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -162,7 +163,7 @@ public class AmbianceActivity extends AppCompatActivity {
             applyAmbiance = (Button) rootView.findViewById(R.id.buttonApplyAmbiance);
             //viewName.setText(lights.);
 
-            List<ImageView> circles = new ArrayList<>();
+            final List<ImageView> circles = new ArrayList<>();
             circles.add(colorCircle1);
             circles.add(colorCircle2);
             circles.add(colorCircle3);
@@ -182,7 +183,42 @@ public class AmbianceActivity extends AppCompatActivity {
                 gd.setColor(rgb);
                 gd.setStroke(1, Color.WHITE);
                 switches.get(i).setChecked(lights.lightscolors.get(i).on);
+                final int index = i;
+                final ColorPicker cp = new ColorPicker(this.getActivity(), (rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF);
+                circles.get(i).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    /* Show color picker dialog */
+
+                        cp.show();
+                            /* On Click listener for the dialog, when the user select the color */
+                        Button okColor = (Button) cp.findViewById(R.id.okColorButton);
+                        okColor.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                /* You can get single channel (value 0-255) */
+                                int red = cp.getRed();
+                                int blue = cp.getBlue();
+                                int green = cp.getGreen();
+                                /*
+                                if (color < 0)
+                                    color = -color;*/
+                                lights.lightscolors.get(index).rgbhex = "#" + String.format("%02x", red) + String.format("%02x", green) + String.format("%02x", blue);
+                                Log.v("ColorPicker ambiance", lights.lightscolors.get(index).rgbhex);
+                                int rgb = Color.parseColor(lights.lightscolors.get(index).rgbhex);
+                                if (!lights.lightscolors.get(index).on)
+                                    rgb = 0;
+                                GradientDrawable gd = (GradientDrawable) circles.get(index).getDrawable();
+                                gd.setColor(rgb);
+                                gd.setStroke(1, Color.WHITE);
+                                cp.dismiss();
+                            }
+                        });
+                    }
+                });
             }
+
 
             stateDuration.setText(lights.duration + "");
             viewName.setText(ambiance.name + " (" + (position + 1) + "/" + ambiance.lights.size() + ")");
