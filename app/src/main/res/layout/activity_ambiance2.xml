@@ -16,4 +16,20 @@
 
     </android.support.v4.view.ViewPager>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="89dp"
+        android:layout_gravity="bottom"
+        android:gravity="center|bottom"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/newState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:text="Add state" />
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

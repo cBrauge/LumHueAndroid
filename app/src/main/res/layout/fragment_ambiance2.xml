@@ -34,10 +34,9 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/colorCircle1"
+                android:id="@+id/colorCircle3"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_gravity="left|center_vertical"
                 android:src="@drawable/circleshape" />
 
             <View
@@ -46,13 +45,10 @@
                 android:layout_weight="1" />
 
             <Switch
-                android:id="@+id/switch1"
+                android:id="@+id/switch3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical|center|right" />
-
+                android:layout_gravity="center_vertical|right" />
         </LinearLayout>
 
         <LinearLayout
@@ -87,9 +83,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/colorCircle3"
+                android:id="@+id/colorCircle1"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_gravity="left|center_vertical"
                 android:src="@drawable/circleshape" />
 
             <View
@@ -98,15 +95,18 @@
                 android:layout_weight="1" />
 
             <Switch
-                android:id="@+id/switch3"
+                android:id="@+id/switch1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right" />
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical|center|right" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="89dp"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
@@ -128,9 +128,10 @@
             <Button
                 android:id="@+id/SaveLight"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="65dp"
                 android:layout_gravity="center_horizontal"
                 android:text="Save ambiance" />
+
         </LinearLayout>
 
     </LinearLayout>

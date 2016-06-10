@@ -39,6 +39,7 @@ import retrofit.client.Response;
 
 public class AmbianceActivity extends AppCompatActivity {
 
+    Button newState;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -48,12 +49,10 @@ public class AmbianceActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
     private Ambiance ambiance;
     private int position;
 
@@ -77,9 +76,22 @@ public class AmbianceActivity extends AppCompatActivity {
             mViewPager = (ViewPager) findViewById(R.id.container);
             mViewPager.setAdapter(mSectionsPagerAdapter);
 
+            newState = (Button) findViewById(R.id.newState);
+            final FragmentManager fm = super.getSupportFragmentManager();
+            newState.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int goTo = mViewPager.getCurrentItem();
+                    Light l = new Light();
+                    ambiance.lights.add(l);
+                    for (int i = 0; i < ambiance.lights.size(); i++) {
+                        Log.v("MOUQID", "" + i + " " + ambiance.lights.get(i).lightscolors.get(0).rgbhex);
+                    }
+                    mSectionsPagerAdapter.notifyDataSetChanged();
+                    mViewPager.setCurrentItem(ambiance.lights.size(), true);
+                }
+            });
         }
-
-
     }
 
 
@@ -127,6 +139,8 @@ public class AmbianceActivity extends AppCompatActivity {
         private Ambiance ambiance;
         private int position;
         private String API;
+
+        //private final ViewPager mPager;
         public PlaceholderFragment() {
         }
 
@@ -134,11 +148,9 @@ public class AmbianceActivity extends AppCompatActivity {
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(Light lights, Ambiance ambiance, int position) {
+        public static PlaceholderFragment newInstance(int position) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
-            args.putString("lights", new Gson().toJson(lights));
-            args.putString("ambiance", new Gson().toJson(ambiance));
             args.putInt("position", position);
             fragment.setArguments(args);
             return fragment;
@@ -172,8 +184,6 @@ public class AmbianceActivity extends AppCompatActivity {
             switches.add(switchOn1);
             switches.add(switchOn2);
             switches.add(switchOn3);
-            lights = new Gson().fromJson(getArguments().getString("lights"), Light.class);
-            ambiance = new Gson().fromJson(getArguments().getString("ambiance"), Ambiance.class);
             position = getArguments().getInt("position");
             for (int i = 0; i < circles.size(); i++) {
                 int rgb = Color.parseColor(lights.lightscolors.get(i).rgbhex);
@@ -258,11 +268,12 @@ public class AmbianceActivity extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+        private final FragmentManager mFragmentManager;
         private Ambiance ambiance;
-
         public SectionsPagerAdapter(FragmentManager fm, Ambiance ambiance) {
             super(fm);
             this.ambiance = ambiance;
+            mFragmentManager = fm;
         }
 
         @Override
@@ -270,26 +281,15 @@ public class AmbianceActivity extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             Light light = ambiance.lights.get(position);
-            return PlaceholderFragment.newInstance(light, ambiance, position);
+            PlaceholderFragment pf = PlaceholderFragment.newInstance(position);
+            pf.ambiance = ambiance;
+            pf.lights = light;
+            return pf;
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return ambiance.lights.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "SECTION 1";
-                case 1:
-                    return "SECTION 2";
-                case 2:
-                    return "SECTION 3";
-            }
-            return null;
         }
     }
 }
