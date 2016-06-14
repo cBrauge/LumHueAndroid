@@ -1,10 +1,15 @@
 package com.lumhue.karskrin.lumhue.model;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Created by Karskrin on 06/06/2016.
  */
 public class AmbianceModel {
-    public Id id;
+    @Expose(serialize = false)
+    public Id _id;
+    @Expose
     public Ambiance ambiance;
-    public Integer userId;
+    @Expose
+    public Integer user_id;
 }

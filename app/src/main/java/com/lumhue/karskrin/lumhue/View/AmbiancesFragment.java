@@ -19,7 +19,6 @@ import com.lumhue.karskrin.lumhue.Activity.AmbianceActivity;
 import com.lumhue.karskrin.lumhue.Adapter.AmbianceAdapter;
 import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
-import com.lumhue.karskrin.lumhue.model.Ambiance;
 import com.lumhue.karskrin.lumhue.model.AmbianceModel;
 
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public class AmbiancesFragment extends Fragment {
     private String API;
     private LinearLayout mLayout;
     private ListView mListView;
-    private ArrayList<Ambiance> adapter;
+    private ArrayList<AmbianceModel> adapter;
     private AmbianceAdapter adapterr;
 
     @Override
@@ -72,7 +71,7 @@ public class AmbiancesFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
                 Intent intent = new Intent(getActivity(), AmbianceActivity.class);
                 intent.putExtra("position", position);
-                intent.putExtra("ambiance", new Gson().toJson(adapter.getItemAtPosition(position)));
+                intent.putExtra("ambianceModel", new Gson().toJson(adapter.getItemAtPosition(position)));
                 startActivity(intent);
             }
         });
@@ -89,7 +88,7 @@ public class AmbiancesFragment extends Fragment {
             @Override
             public void success(HashMap<String, AmbianceModel> ambiances, Response response) {
                 for (Map.Entry<String, AmbianceModel> entry : ambiances.entrySet()) {
-                    adapter.add(entry.getValue().ambiance);
+                    adapter.add(entry.getValue());
                     adapterr.notifyDataSetChanged();
                 }
                 pbar.setVisibility(View.INVISIBLE);

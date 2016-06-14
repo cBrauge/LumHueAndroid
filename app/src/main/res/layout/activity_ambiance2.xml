@@ -23,13 +23,41 @@
         android:gravity="center|bottom"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/newState"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
-            android:text="Add state" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/newState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add state" />
+
+            <Button
+                android:id="@+id/buttonApplyAmbiance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apply ambiance" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/SaveAmbiance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save ambiance" />
+
+            <Button
+                android:id="@+id/DeleteAmbiance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete ambiance" />
+        </LinearLayout>
+
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

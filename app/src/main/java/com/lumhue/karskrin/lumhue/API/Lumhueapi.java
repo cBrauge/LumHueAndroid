@@ -4,11 +4,13 @@ import com.lumhue.karskrin.lumhue.model.AmbianceApplyResponse;
 import com.lumhue.karskrin.lumhue.model.AmbianceModel;
 import com.lumhue.karskrin.lumhue.model.LoginResponseDTO;
 import com.lumhue.karskrin.lumhue.model.Lumhuemodel;
+import com.lumhue.karskrin.lumhue.model.Request;
 
 import java.util.HashMap;
 import java.util.List;
 
 import retrofit.Callback;
+import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -44,4 +46,8 @@ public interface Lumhueapi {
     @FormUrlEncoded
     @POST("/ambiance/apply")
     void applyAmbiance(@Field("access_token") String token, @Field("ambiance_id") String id, Callback<AmbianceApplyResponse> response);
+
+    //Update an ambiance
+    @POST("/ambiance/update")
+    void updateAmbiance(@Body Request request, Callback<AmbianceApplyResponse> response);
 }

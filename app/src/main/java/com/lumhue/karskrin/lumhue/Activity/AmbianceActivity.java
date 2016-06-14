@@ -21,12 +21,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.lumhue.karskrin.lumhue.API.Lumhueapi;
 import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
 import com.lumhue.karskrin.lumhue.model.Ambiance;
 import com.lumhue.karskrin.lumhue.model.AmbianceApplyResponse;
+import com.lumhue.karskrin.lumhue.model.AmbianceModel;
 import com.lumhue.karskrin.lumhue.model.Light;
+import com.lumhue.karskrin.lumhue.model.Request;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 
 import java.util.ArrayList;
@@ -40,6 +43,9 @@ import retrofit.client.Response;
 public class AmbianceActivity extends AppCompatActivity {
 
     Button newState;
+    Button saveAmbiance;
+    Button applyAmbiance;
+    Button deleteAmbiance;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -54,6 +60,7 @@ public class AmbianceActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     private Ambiance ambiance;
+    private AmbianceModel ambianceModel;
     private int position;
 
     @Override
@@ -68,8 +75,9 @@ public class AmbianceActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             position = extras.getInt("position");
-            String jsonMyObject = extras.getString("ambiance");
-            ambiance = new Gson().fromJson(jsonMyObject, Ambiance.class);
+            String jsonMyObject = extras.getString("ambianceModel");
+            ambianceModel = new Gson().fromJson(jsonMyObject, AmbianceModel.class);
+            ambiance = ambianceModel.ambiance;
             mSectionsPagerAdapter = new SectionsPagerAdapter(super.getSupportFragmentManager(), ambiance);
 
         // Set up the ViewPager with the sections adapter.
@@ -77,23 +85,87 @@ public class AmbianceActivity extends AppCompatActivity {
             mViewPager.setAdapter(mSectionsPagerAdapter);
 
             newState = (Button) findViewById(R.id.newState);
+            saveAmbiance = (Button) findViewById(R.id.SaveAmbiance);
+            applyAmbiance = (Button) findViewById(R.id.buttonApplyAmbiance);
+            deleteAmbiance = (Button) findViewById(R.id.DeleteAmbiance);
             final FragmentManager fm = super.getSupportFragmentManager();
             newState.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int goTo = mViewPager.getCurrentItem();
                     Light l = new Light();
                     ambiance.lights.add(l);
-                    for (int i = 0; i < ambiance.lights.size(); i++) {
-                        Log.v("MOUQID", "" + i + " " + ambiance.lights.get(i).lightscolors.get(0).rgbhex);
-                    }
                     mSectionsPagerAdapter.notifyDataSetChanged();
                     mViewPager.setCurrentItem(ambiance.lights.size(), true);
+                }
+            });
+
+            saveAmbiance.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // update
+                    if (ambianceModel._id.$oid != null) {
+                        update();
+                    } else {
+                        // create
+                    }
+                }
+            });
+
+
+            applyAmbiance.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    apply();
                 }
             });
         }
     }
 
+    private void update() {
+        // TODO put this somewhere smarter
+        ambianceModel.ambiance.uniq_id = ambianceModel._id.$oid;
+
+        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(getResources().getString(R.string.api)).build();
+        final GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithoutExposeAnnotation();
+        builder.disableHtmlEscaping();
+        final Gson gson = builder.create();
+        Request r = new Request(MainActivity.token, ambianceModel._id.$oid, ambianceModel);
+        String json = gson.toJson(r);
+        Log.v("Ambiance activity", json);
+
+        final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
+        lumhueapi.updateAmbiance(r, new Callback<AmbianceApplyResponse>() {
+            @Override
+            public void success(AmbianceApplyResponse ambianceApplyResponse, Response response) {
+                Log.v("Ambiance activity", "It worked");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                String tv = error.getMessage();
+                Log.v("Ambiance activity", tv + "");
+            }
+        });
+    }
+
+    private void apply() {
+        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(getResources().getString(R.string.api)).build();
+        final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
+        lumhueapi.applyAmbiance(MainActivity.token, ambianceModel._id.$oid, new Callback<AmbianceApplyResponse>() {
+            @Override
+            public void success(AmbianceApplyResponse ambianceApplyResponse, Response response) {
+
+                Log.v("Ambiance activity", "It worked");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                String tv = error.getMessage();
+                Log.v("Ambiance activity", tv + "");
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -134,7 +206,6 @@ public class AmbianceActivity extends AppCompatActivity {
         ImageView colorCircle3;
         Switch switchOn3;
         EditText stateDuration;
-        Button applyAmbiance;
         private Light lights;
         private Ambiance ambiance;
         private int position;
@@ -172,7 +243,6 @@ public class AmbianceActivity extends AppCompatActivity {
             colorCircle2 = (ImageView) rootView.findViewById(R.id.colorCircle2);
             colorCircle3 = (ImageView) rootView.findViewById(R.id.colorCircle3);
             stateDuration = (EditText) rootView.findViewById(R.id.stateDuration);
-            applyAmbiance = (Button) rootView.findViewById(R.id.buttonApplyAmbiance);
             //viewName.setText(lights.);
 
             final List<ImageView> circles = new ArrayList<>();
@@ -215,7 +285,8 @@ public class AmbianceActivity extends AppCompatActivity {
                                 if (color < 0)
                                     color = -color;*/
                                 lights.lightscolors.get(index).rgbhex = "#" + String.format("%02x", red) + String.format("%02x", green) + String.format("%02x", blue);
-                                Log.v("ColorPicker ambiance", lights.lightscolors.get(index).rgbhex);
+                                lights.lightscolors.get(index).color = "rgb(" + red + "," + green + "," + blue + ")";
+                                Log.v("ColorPicker ambiance", lights.lightscolors.get(index).color);
                                 int rgb = Color.parseColor(lights.lightscolors.get(index).rgbhex);
                                 if (!lights.lightscolors.get(index).on)
                                     rgb = 0;
@@ -233,32 +304,8 @@ public class AmbianceActivity extends AppCompatActivity {
             stateDuration.setText(lights.duration + "");
             viewName.setText(ambiance.name + " (" + (position + 1) + "/" + ambiance.lights.size() + ")");
 
-            applyAmbiance.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    apply(ambiance);
-                }
-            });
 
             return rootView;
-        }
-
-        private void apply(final Ambiance ambiance) {
-            RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
-            final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
-            lumhueapi.applyAmbiance(MainActivity.token, ambiance.uniq_id, new Callback<AmbianceApplyResponse>() {
-                @Override
-                public void success(AmbianceApplyResponse ambianceApplyResponse, Response response) {
-                    Log.v("Ambiance activity", "it works");
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    String tv = error.getMessage();
-                    Log.v("Ambiances activity", tv + "");
-                }
-            });
-
         }
     }
 

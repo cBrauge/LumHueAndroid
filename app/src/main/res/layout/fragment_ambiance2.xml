@@ -107,30 +107,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="89dp"
-            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/buttonApplyAmbiance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="Apply ambiance" />
 
             <EditText
                 android:id="@+id/stateDuration"
                 android:layout_width="64dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center"
                 android:ems="10"
                 android:inputType="number" />
-
-            <Button
-                android:id="@+id/SaveLight"
-                android:layout_width="wrap_content"
-                android:layout_height="65dp"
-                android:layout_gravity="center_horizontal"
-                android:text="Save ambiance" />
 
         </LinearLayout>
 

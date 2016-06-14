@@ -11,22 +11,22 @@ import android.widget.TextView;
 
 import com.lumhue.karskrin.lumhue.R;
 import com.lumhue.karskrin.lumhue.View.AmbiancesFragment;
-import com.lumhue.karskrin.lumhue.model.Ambiance;
+import com.lumhue.karskrin.lumhue.model.AmbianceModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AmbianceAdapter extends ArrayAdapter<Ambiance> {
-    List<Ambiance> ambiances = null;
+public class AmbianceAdapter extends ArrayAdapter<AmbianceModel> {
+    List<AmbianceModel> ambianceModels = null;
     AmbiancesFragment context;
     int layoutResourceId;
     String API = "https://karskrin.mr-calen.eu/api";
 
-    public AmbianceAdapter(AmbiancesFragment context, int resource, List<Ambiance> objects) {
+    public AmbianceAdapter(AmbiancesFragment context, int resource, List<AmbianceModel> objects) {
         super(context.getActivity().getBaseContext(), resource, objects);
         this.layoutResourceId = resource;
         this.context = context;
-        this.ambiances = objects;
+        this.ambianceModels = objects;
     }
 
     @Override
@@ -42,11 +42,11 @@ public class AmbianceAdapter extends ArrayAdapter<Ambiance> {
             holder.colorCircles.add((ImageView) row.findViewById(R.id.colorCircle1));
             holder.colorCircles.add((ImageView) row.findViewById(R.id.colorCircle2));
             holder.colorCircles.add((ImageView) row.findViewById(R.id.colorCircle3));
-            holder.ambiance = ambiances.get(position);
+            holder.ambianceModel = ambianceModels.get(position);
 
             for (int i = 0; i < holder.colorCircles.size(); i++) {
-                int rgb = Color.parseColor(holder.ambiance.lights.get(0).lightscolors.get(i).rgbhex);
-                if (!holder.ambiance.lights.get(0).lightscolors.get(i).on)
+                int rgb = Color.parseColor(holder.ambianceModel.ambiance.lights.get(0).lightscolors.get(i).rgbhex);
+                if (!holder.ambianceModel.ambiance.lights.get(0).lightscolors.get(i).on)
                     rgb = 0;
                 GradientDrawable gd = (GradientDrawable) holder.colorCircles.get(i).getDrawable();
                 gd.setColor(rgb);
@@ -60,8 +60,8 @@ public class AmbianceAdapter extends ArrayAdapter<Ambiance> {
             holder = (AmbianceHolder) row.getTag();
         }
 
-        Ambiance ambiance = ambiances.get(position);
-        holder.txtview.setText(ambiance.name);
+        AmbianceModel ambianceModel = ambianceModels.get(position);
+        holder.txtview.setText(ambianceModel.ambiance.name);
 
         return row;
     }
@@ -72,6 +72,6 @@ public class AmbianceAdapter extends ArrayAdapter<Ambiance> {
         ImageView colorCircle1;
         ImageView colorCircle2;
         ImageView colorCircle3;
-        Ambiance ambiance;
+        AmbianceModel ambianceModel;
     }
 }
