@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -198,7 +200,7 @@ public class AmbianceActivity extends AppCompatActivity {
          * The fragment argument representing the section number for this
          * fragment.
          */
-        TextView viewName;
+        EditText viewName;
         ImageView colorCircle1;
         Switch switchOn1;
         ImageView colorCircle2;
@@ -235,7 +237,7 @@ public class AmbianceActivity extends AppCompatActivity {
             //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             API = getResources().getString(R.string.api);
             // Set name according to the name of the ambiance
-            viewName = (TextView) rootView.findViewById(R.id.txtLight);
+            viewName = (EditText) rootView.findViewById(R.id.txtLight);
             switchOn1 = (Switch) rootView.findViewById(R.id.switch1);
             switchOn2 = (Switch) rootView.findViewById(R.id.switch2);
             switchOn3 = (Switch) rootView.findViewById(R.id.switch3);
@@ -302,7 +304,23 @@ public class AmbianceActivity extends AppCompatActivity {
 
 
             stateDuration.setText(lights.duration + "");
-            viewName.setText(ambiance.name + " (" + (position + 1) + "/" + ambiance.lights.size() + ")");
+            viewName.setText(ambiance.name/* + " (" + (position + 1) + "/" + ambiance.lights.size() + ")"*/);
+            viewName.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    ambiance.name = s.toString();
+                }
+            });
 
 
             return rootView;

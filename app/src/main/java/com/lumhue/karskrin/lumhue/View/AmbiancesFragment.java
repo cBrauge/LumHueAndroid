@@ -38,6 +38,7 @@ public class AmbiancesFragment extends Fragment {
     private ListView mListView;
     private ArrayList<AmbianceModel> adapter;
     private AmbianceAdapter adapterr;
+    private Button getAmbiances;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class AmbiancesFragment extends Fragment {
         click = (Button) getView().findViewById(R.id.button);
         pbar = (ProgressBar) getView().findViewById(R.id.pb);
         mListView = (ListView) getView().findViewById(R.id.listView);
+        getAmbiances = (Button) getView().findViewById(R.id.getAmbiances);
 
         adapter = new ArrayList<>();
         adapterr = new AmbianceAdapter(this, R.layout.listview_ambiance_row, adapter);
@@ -73,6 +75,13 @@ public class AmbiancesFragment extends Fragment {
                 intent.putExtra("position", position);
                 intent.putExtra("ambianceModel", new Gson().toJson(adapter.getItemAtPosition(position)));
                 startActivity(intent);
+            }
+        });
+
+        getAmbiances.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                get(MainActivity.token);
             }
         });
 
