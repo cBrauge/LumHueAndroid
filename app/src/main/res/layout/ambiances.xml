@@ -29,6 +29,13 @@
             android:layout_marginLeft="0dp"
             android:text="Get" />
 
+        <Button
+            android:id="@+id/addAmbiance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="0dp"
+            android:text="Create" />
         <ProgressBar
             android:id="@+id/pb"
             style="?android:attr/progressBarStyleSmall"

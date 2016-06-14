@@ -5,6 +5,7 @@ import com.lumhue.karskrin.lumhue.model.AmbianceModel;
 import com.lumhue.karskrin.lumhue.model.LoginResponseDTO;
 import com.lumhue.karskrin.lumhue.model.Lumhuemodel;
 import com.lumhue.karskrin.lumhue.model.Request;
+import com.lumhue.karskrin.lumhue.model.RequestCreateAmbiance;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,4 +51,13 @@ public interface Lumhueapi {
     //Update an ambiance
     @POST("/ambiance/update")
     void updateAmbiance(@Body Request request, Callback<AmbianceApplyResponse> response);
+
+    //Create an ambiance
+    @POST("/ambiance/update")
+    void createAmbiance(@Body RequestCreateAmbiance request, Callback<AmbianceApplyResponse> response);
+
+    //Remove an ambiance
+    @FormUrlEncoded
+    @POST("/ambiance/remove")
+    void removeAmbiance(@Field("access_token") String token, @Field("ambiance_id") String id, Callback<AmbianceApplyResponse> response);
 }

@@ -105,11 +105,8 @@ public class AmbianceActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     // update
-                    if (ambianceModel._id.$oid != null) {
+                    if (ambianceModel._id.$oid != null)
                         update();
-                    } else {
-                        // create
-                    }
                 }
             });
 
@@ -120,7 +117,38 @@ public class AmbianceActivity extends AppCompatActivity {
                     apply();
                 }
             });
+
+            deleteAmbiance.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    delete();
+                }
+            });
         }
+    }
+
+    private void delete() {
+        ambianceModel.ambiance.uniq_id = ambianceModel._id.$oid;
+
+        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(getResources().getString(R.string.api)).build();
+
+        final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
+        lumhueapi.removeAmbiance(MainActivity.token, ambianceModel.ambiance.uniq_id, new Callback<AmbianceApplyResponse>() {
+            @Override
+            public void success(AmbianceApplyResponse ambianceApplyResponse, Response response) {
+                Log.v("Ambiance activity", "It worked");
+                getFragmentManager().popBackStack();
+                finish();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                String tv = error.getMessage();
+                Log.v("Ambiance activity", tv + "");
+                finish();
+            }
+        });
+
     }
 
     private void update() {

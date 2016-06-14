@@ -16,7 +16,8 @@ public class Light {
 
     public Light() {
         this.duration = 10;
-        for (int i = 0; i < 3; i++)
-            lightscolors.add(new Lightscolor(i, "rgb(255,255,255)", true, "#ffffff"));
+        lightscolors.add(new Lightscolor(0, "rgb(255,0, 0)", true, "#ff0000"));
+        lightscolors.add(new Lightscolor(1, "rgb(0,255,0)", true, "#00ff00"));
+        lightscolors.add(new Lightscolor(2, "rgb(0, 0, 255)", true, "#0000ff"));
     }
 }

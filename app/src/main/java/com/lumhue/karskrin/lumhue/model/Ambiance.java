@@ -15,4 +15,9 @@ public class Ambiance {
     public List<Light> lights = new ArrayList<Light>();
     @Expose
     public String uniq_id;
+
+    public Ambiance() {
+        name = "New ambiance";
+        lights.add(new Light());
+    }
 }

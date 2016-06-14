@@ -12,4 +12,9 @@ public class AmbianceModel {
     public Ambiance ambiance;
     @Expose
     public Integer user_id;
+
+    public AmbianceModel() {
+        this._id = new Id();
+        this.ambiance = new Ambiance();
+    }
 }

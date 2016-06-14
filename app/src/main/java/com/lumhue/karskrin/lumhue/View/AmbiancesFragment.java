@@ -14,12 +14,15 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.lumhue.karskrin.lumhue.API.Lumhueapi;
 import com.lumhue.karskrin.lumhue.Activity.AmbianceActivity;
 import com.lumhue.karskrin.lumhue.Adapter.AmbianceAdapter;
 import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
+import com.lumhue.karskrin.lumhue.model.AmbianceApplyResponse;
 import com.lumhue.karskrin.lumhue.model.AmbianceModel;
+import com.lumhue.karskrin.lumhue.model.RequestCreateAmbiance;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +42,7 @@ public class AmbiancesFragment extends Fragment {
     private ArrayList<AmbianceModel> adapter;
     private AmbianceAdapter adapterr;
     private Button getAmbiances;
+    private Button addAmbiance;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,7 @@ public class AmbiancesFragment extends Fragment {
         pbar = (ProgressBar) getView().findViewById(R.id.pb);
         mListView = (ListView) getView().findViewById(R.id.listView);
         getAmbiances = (Button) getView().findViewById(R.id.getAmbiances);
+        addAmbiance = (Button) getView().findViewById(R.id.addAmbiance);
 
         adapter = new ArrayList<>();
         adapterr = new AmbianceAdapter(this, R.layout.listview_ambiance_row, adapter);
@@ -82,6 +87,35 @@ public class AmbiancesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 get(MainActivity.token);
+            }
+        });
+
+        addAmbiance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AmbianceModel am = new AmbianceModel();
+                final GsonBuilder builder = new GsonBuilder();
+                builder.excludeFieldsWithoutExposeAnnotation();
+                builder.disableHtmlEscaping();
+                final Gson gson = builder.create();
+                RequestCreateAmbiance r = new RequestCreateAmbiance(MainActivity.token, am);
+                String json = gson.toJson(r);
+
+                RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(getResources().getString(R.string.api)).build();
+                final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
+                lumhueapi.createAmbiance(r, new Callback<AmbianceApplyResponse>() {
+                    @Override
+                    public void success(AmbianceApplyResponse ambianceApplyResponse, Response response) {
+                        Log.v("Ambiance activity", "It worked");
+                        get(MainActivity.token);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        String tv = error.getMessage();
+                        Log.v("Ambiance activity", tv + "");
+                    }
+                });
             }
         });
 
