@@ -44,7 +44,7 @@ public class LumhuemodelAdapter extends ArrayAdapter<Lumhuemodel> {
 
             holder.model = lights.get(position);
             Rgb rgb = holder.model.rgb;
-            int color = Color.rgb(rgb.r, rgb.g, rgb.b);
+            int color = Color.rgb(rgb.r.intValue(), rgb.g.intValue(), rgb.b.intValue());
 
             if (!holder.model.state.reachable)
                 color = 0;

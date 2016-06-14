@@ -63,7 +63,7 @@ public class LightActivity extends BaseActivity {
 
         // Set color of the circle according to the color of the lamp
         final Rgb rgb = model.rgb;
-        int color = Color.rgb(rgb.r, rgb.g, rgb.b);
+        int color = Color.rgb(rgb.r.intValue(), rgb.g.intValue(), rgb.b.intValue());
         if (!model.state.on)
             color = 0;
 
@@ -81,7 +81,7 @@ public class LightActivity extends BaseActivity {
         });
 
         // Color picker
-        final ColorPicker cp = new ColorPicker(this, rgb.r, rgb.g, rgb.b);
+        final ColorPicker cp = new ColorPicker(this, rgb.r.intValue(), rgb.g.intValue(), rgb.b.intValue());
         colorCircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,11 +95,11 @@ public class LightActivity extends BaseActivity {
                     public void onClick(View v) {
 
                 /* You can get single channel (value 0-255) */
-                        model.rgb.r = cp.getRed();
-                        model.rgb.g = cp.getGreen();
-                        model.rgb.b = cp.getBlue();
+                        model.rgb.r = new Integer(cp.getRed()).doubleValue();
+                        model.rgb.g = new Integer(cp.getGreen()).doubleValue();
+                        model.rgb.b = new Integer(cp.getBlue()).doubleValue();
                         final Rgb rgb = model.rgb;
-                        int color = Color.rgb(rgb.r, rgb.g, rgb.b);
+                        int color = Color.rgb(rgb.r.intValue(), rgb.g.intValue(), rgb.b.intValue());
                         if (!model.state.on || !model.state.reachable)
                             color = 0;
                         colorCircle.setColorFilter(color);
