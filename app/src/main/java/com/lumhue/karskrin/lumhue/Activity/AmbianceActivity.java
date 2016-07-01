@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -48,6 +49,7 @@ public class AmbianceActivity extends AppCompatActivity {
     Button saveAmbiance;
     Button applyAmbiance;
     Button deleteAmbiance;
+    Button deleteState;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -90,6 +92,7 @@ public class AmbianceActivity extends AppCompatActivity {
             saveAmbiance = (Button) findViewById(R.id.SaveAmbiance);
             applyAmbiance = (Button) findViewById(R.id.buttonApplyAmbiance);
             deleteAmbiance = (Button) findViewById(R.id.DeleteAmbiance);
+            deleteState = (Button) findViewById(R.id.DeleteState);
             final FragmentManager fm = super.getSupportFragmentManager();
             newState.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -122,6 +125,22 @@ public class AmbianceActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     delete();
+                }
+            });
+            deleteState.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (ambiance.lights.size() > 1) {
+                        int pos = mViewPager.getCurrentItem();
+
+                        ambiance.lights.remove(pos);
+                        mSectionsPagerAdapter = null;
+                        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), ambiance);
+                        mViewPager.removeAllViews();
+                        mViewPager.destroyDrawingCache();
+                        mViewPager.setAdapter(mSectionsPagerAdapter);
+                        mViewPager.setCurrentItem(pos > 0 ? pos - 1 : 0, true);
+                    }
                 }
             });
         }
@@ -359,7 +378,7 @@ public class AmbianceActivity extends AppCompatActivity {
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         private final FragmentManager mFragmentManager;
         private Ambiance ambiance;
