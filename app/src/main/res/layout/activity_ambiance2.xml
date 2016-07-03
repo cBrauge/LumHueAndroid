@@ -32,6 +32,7 @@
                 android:id="@+id/newState"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:background="@null"
                 android:scaleType="fitXY"
                 android:src="@drawable/add_state" />
 
@@ -39,6 +40,7 @@
                 android:id="@+id/DeleteState"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:background="@null"
                 android:scaleType="fitXY"
                 android:src="@drawable/delete_state" />
 
@@ -53,6 +55,7 @@
                 android:id="@+id/SaveAmbiance"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:background="@null"
                 android:scaleType="fitXY"
                 android:src="@drawable/save_ambiance" />
 
@@ -60,6 +63,7 @@
                 android:id="@+id/DeleteAmbiance"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:background="@null"
                 android:scaleType="fitXY"
                 android:src="@drawable/delete_ambiance" />
         </LinearLayout>
@@ -73,6 +77,7 @@
                 android:id="@+id/buttonApplyAmbiance"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:background="@null"
                 android:scaleType="fitXY"
                 android:src="@drawable/apply_ambiance" />
         </LinearLayout>

@@ -28,6 +28,7 @@
 
             <EditText
                 android:id="@+id/input_name"
+                style="@style/CustomEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Name"
@@ -43,6 +44,7 @@
 
             <EditText
                 android:id="@+id/input_email"
+                style="@style/CustomEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
@@ -58,6 +60,7 @@
 
             <EditText
                 android:id="@+id/input_password"
+                style="@style/CustomEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
