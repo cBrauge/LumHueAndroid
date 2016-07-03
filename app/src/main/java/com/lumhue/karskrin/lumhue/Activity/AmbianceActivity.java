@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -45,11 +46,11 @@ import retrofit.client.Response;
 
 public class AmbianceActivity extends AppCompatActivity {
 
-    Button newState;
-    Button saveAmbiance;
-    Button applyAmbiance;
-    Button deleteAmbiance;
-    Button deleteState;
+    ImageButton newState;
+    ImageButton saveAmbiance;
+    ImageButton applyAmbiance;
+    ImageButton deleteAmbiance;
+    ImageButton deleteState;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -88,11 +89,11 @@ public class AmbianceActivity extends AppCompatActivity {
             mViewPager = (ViewPager) findViewById(R.id.container);
             mViewPager.setAdapter(mSectionsPagerAdapter);
 
-            newState = (Button) findViewById(R.id.newState);
-            saveAmbiance = (Button) findViewById(R.id.SaveAmbiance);
-            applyAmbiance = (Button) findViewById(R.id.buttonApplyAmbiance);
-            deleteAmbiance = (Button) findViewById(R.id.DeleteAmbiance);
-            deleteState = (Button) findViewById(R.id.DeleteState);
+            newState = (ImageButton) findViewById(R.id.newState);
+            saveAmbiance = (ImageButton) findViewById(R.id.SaveAmbiance);
+            applyAmbiance = (ImageButton) findViewById(R.id.buttonApplyAmbiance);
+            deleteAmbiance = (ImageButton) findViewById(R.id.DeleteAmbiance);
+            deleteState = (ImageButton) findViewById(R.id.DeleteState);
             final FragmentManager fm = super.getSupportFragmentManager();
             newState.setOnClickListener(new View.OnClickListener() {
                 @Override
