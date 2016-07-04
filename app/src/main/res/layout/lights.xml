@@ -20,15 +20,6 @@
         android:layout_below="@+id/listView"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/pb"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="0dp"
-            android:text="Get" />
-
         <ProgressBar
             android:id="@+id/pb"
             style="?android:attr/progressBarStyleSmall"

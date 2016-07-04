@@ -20,22 +20,15 @@
         android:layout_below="@+id/listView"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/getAmbiances"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/pb"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="0dp"
-            android:text="Get" />
-
-        <Button
+        <ImageButton
             android:id="@+id/addAmbiance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="0dp"
-            android:text="Create" />
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/add_state" />
         <ProgressBar
             android:id="@+id/pb"
             style="?android:attr/progressBarStyleSmall"
