@@ -63,7 +63,7 @@ public class BaseActivity extends AppCompatActivity {
                         finish();
                         break;
                     case 3:
-                        intent = new Intent(getApplicationContext(), AmbiancesActivity.class);
+                        intent = new Intent(getApplicationContext(), BeaconActivity.class);
                         startActivity(intent);
                         finish();
                         break;

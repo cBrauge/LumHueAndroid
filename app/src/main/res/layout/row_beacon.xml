@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/colorBeacon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        tools:background="#AAA" />
+
+    <TextView
+        android:id="@+id/typeBeacon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/colorBeacon"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/colorBeacon"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        tools:text="Type" />
+
+    <TextView
+        android:id="@+id/distanceBeacon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/typeBeacon"
+        android:layout_below="@+id/typeBeacon"
+        android:textColor="@android:color/white"
+        tools:text="Distance" />
+
+</RelativeLayout>

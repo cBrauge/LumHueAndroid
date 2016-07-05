@@ -41,7 +41,11 @@
         <activity
             android:name=".Activity.AmbianceActivity"
             android:label="@string/title_activity_ambiance"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.BeaconActivity"
+            android:label="@string/title_activity_beacon"
+            android:theme="@style/AppTheme.Dark" />
     </application>
 
 </manifest>
