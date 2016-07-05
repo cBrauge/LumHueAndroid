@@ -21,7 +21,7 @@ public class LumhuemodelAdapter extends ArrayAdapter<Lumhuemodel> {
     List<Lumhuemodel> lights = null;
     LightsFragment context;
     int layoutResourceId;
-    String API = "https://karskrin.mr-calen.eu/api";
+    String API = "https://calen.mr-calen.eu/api";
 
     public LumhuemodelAdapter(LightsFragment context, int resource, List<Lumhuemodel> objects) {
         super(context.getActivity().getBaseContext(), resource, objects);

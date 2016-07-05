@@ -50,6 +50,7 @@ public class BeaconActivity extends BaseActivity {
         beaconManager.setNearableListener(new BeaconManager.NearableListener() {
             @Override
             public void onNearablesDiscovered(List<Nearable> nearables) {
+                beaconModels.clear();
                 for (Nearable n : nearables) {
                     final Utils.Proximity distance = Utils.computeProximity(n);
                     ws.sendText(distance.toString());

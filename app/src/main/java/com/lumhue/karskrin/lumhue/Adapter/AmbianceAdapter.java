@@ -20,7 +20,7 @@ public class AmbianceAdapter extends ArrayAdapter<AmbianceModel> {
     List<AmbianceModel> ambianceModels = null;
     AmbiancesFragment context;
     int layoutResourceId;
-    String API = "https://karskrin.mr-calen.eu/api";
+    String API = "https://calen.mr-calen.eu/api";
 
     public AmbianceAdapter(AmbiancesFragment context, int resource, List<AmbianceModel> objects) {
         super(context.getActivity().getBaseContext(), resource, objects);
