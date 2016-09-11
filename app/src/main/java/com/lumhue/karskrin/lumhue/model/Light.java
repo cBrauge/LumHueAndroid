@@ -5,9 +5,6 @@ import com.google.gson.annotations.Expose;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Karskrin on 06/06/2016.
- */
 public class Light {
     @Expose
     public Integer duration = 10;

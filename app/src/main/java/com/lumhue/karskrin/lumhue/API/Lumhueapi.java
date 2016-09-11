@@ -3,6 +3,7 @@ package com.lumhue.karskrin.lumhue.API;
 import com.lumhue.karskrin.lumhue.model.AmbianceApplyResponse;
 import com.lumhue.karskrin.lumhue.model.AmbianceModel;
 import com.lumhue.karskrin.lumhue.model.LoginResponseDTO;
+import com.lumhue.karskrin.lumhue.model.LumHueBeaconModel;
 import com.lumhue.karskrin.lumhue.model.Lumhuemodel;
 import com.lumhue.karskrin.lumhue.model.Request;
 import com.lumhue.karskrin.lumhue.model.RequestCreateAmbiance;
@@ -60,4 +61,13 @@ public interface Lumhueapi {
     @FormUrlEncoded
     @POST("/ambiance/remove")
     void removeAmbiance(@Field("access_token") String token, @Field("ambiance_id") String id, Callback<AmbianceApplyResponse> response);
+
+    //Get the beacons
+    @GET("/beacons/all")
+    void getBeacons(@Query("access_token") String token, Callback<List<LumHueBeaconModel>> response);
+
+    //Sync a beacon
+    @FormUrlEncoded
+    @POST("/beacons/sync")
+    void syncBeacon(@Field("access_token") String token, @Field("beacon_id") String id, @Field("beacon_uuid") String uuid, Callback<List<LumHueBeaconModel>> response);
 }

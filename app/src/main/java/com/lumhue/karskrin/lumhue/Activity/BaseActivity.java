@@ -31,13 +31,14 @@ public class BaseActivity extends AppCompatActivity {
         mDrawerLayout.setScrimColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[5];
+        ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[6];
 
         drawerItem[0] = new ObjectDrawerItem(R.drawable.ic_home, "Home");
         drawerItem[1] = new ObjectDrawerItem(R.drawable.ic_lights, "Lights");
         drawerItem[2] = new ObjectDrawerItem(R.drawable.ic_ambiances, "Ambiances");
         drawerItem[3] = new ObjectDrawerItem(R.drawable.ic_beacon, "Beacons");
-        drawerItem[4] = new ObjectDrawerItem(R.drawable.ic_logout, "Logout");
+        drawerItem[4] = new ObjectDrawerItem(R.drawable.ic_sync, "Sync");
+        drawerItem[5] = new ObjectDrawerItem(R.drawable.ic_logout, "Logout");
 
         DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.listview_item_row, drawerItem);
         mDrawerList.setAdapter(adapter);
@@ -64,6 +65,11 @@ public class BaseActivity extends AppCompatActivity {
                         break;
                     case 3:
                         intent = new Intent(getApplicationContext(), BeaconActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    case 4:
+                        intent = new Intent(getApplicationContext(), SyncActivity.class);
                         startActivity(intent);
                         finish();
                         break;

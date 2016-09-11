@@ -46,6 +46,10 @@
             android:name=".Activity.BeaconActivity"
             android:label="@string/title_activity_beacon"
             android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".Activity.SyncActivity"
+            android:label="@string/title_activity_beacon"
+            android:theme="@style/AppTheme.Dark" />
     </application>
 
 </manifest>
