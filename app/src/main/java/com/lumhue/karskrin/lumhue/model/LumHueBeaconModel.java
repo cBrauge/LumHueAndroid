@@ -22,7 +22,7 @@ public class LumHueBeaconModel {
     public Float xpos;
     @SerializedName("ypos")
     @Expose
-    public Integer ypos;
+    public Float ypos;
     @SerializedName("zpos")
     @Expose
     public Float zpos;
