@@ -14,8 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lumhue.karskrin.lumhue.API.Lumhueapi;
-import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
+import com.lumhue.karskrin.lumhue.Singleton;
 import com.lumhue.karskrin.lumhue.model.LoginResponseDTO;
 
 import butterknife.ButterKnife;
@@ -100,7 +100,7 @@ public class LoginActivity extends Activity {
             @Override
             public void success(LoginResponseDTO dto, Response response) {
                 Log.v("Login Activity", dto.getToken());
-                MainActivity.token = dto.getToken();
+                Singleton.token = dto.getToken();
                 onLoginSuccess();
             }
 
@@ -127,7 +127,7 @@ public class LoginActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        // disable going back to the MainActivity
+        // disable going back
         moveTaskToBack(true);
     }
 

@@ -27,8 +27,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lumhue.karskrin.lumhue.API.Lumhueapi;
-import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
+import com.lumhue.karskrin.lumhue.Singleton;
 import com.lumhue.karskrin.lumhue.model.Ambiance;
 import com.lumhue.karskrin.lumhue.model.AmbianceApplyResponse;
 import com.lumhue.karskrin.lumhue.model.AmbianceModel;
@@ -153,7 +153,7 @@ public class AmbianceActivity extends AppCompatActivity {
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(getResources().getString(R.string.api)).build();
 
         final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
-        lumhueapi.removeAmbiance(MainActivity.token, ambianceModel.ambiance.uniq_id, new Callback<AmbianceApplyResponse>() {
+        lumhueapi.removeAmbiance(Singleton.token, ambianceModel.ambiance.uniq_id, new Callback<AmbianceApplyResponse>() {
             @Override
             public void success(AmbianceApplyResponse ambianceApplyResponse, Response response) {
                 Log.v("Ambiance activity", "It worked");
@@ -180,7 +180,7 @@ public class AmbianceActivity extends AppCompatActivity {
         builder.excludeFieldsWithoutExposeAnnotation();
         builder.disableHtmlEscaping();
         final Gson gson = builder.create();
-        Request r = new Request(MainActivity.token, ambianceModel._id.$oid, ambianceModel);
+        Request r = new Request(Singleton.token, ambianceModel._id.$oid, ambianceModel);
         String json = gson.toJson(r);
         Log.v("Ambiance activity", json);
 
@@ -202,7 +202,7 @@ public class AmbianceActivity extends AppCompatActivity {
     private void apply() {
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(getResources().getString(R.string.api)).build();
         final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
-        lumhueapi.applyAmbiance(MainActivity.token, ambianceModel._id.$oid, new Callback<AmbianceApplyResponse>() {
+        lumhueapi.applyAmbiance(Singleton.token, ambianceModel._id.$oid, new Callback<AmbianceApplyResponse>() {
             @Override
             public void success(AmbianceApplyResponse ambianceApplyResponse, Response response) {
 

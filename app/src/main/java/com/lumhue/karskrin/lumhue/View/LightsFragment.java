@@ -17,8 +17,8 @@ import com.google.gson.Gson;
 import com.lumhue.karskrin.lumhue.API.Lumhueapi;
 import com.lumhue.karskrin.lumhue.Activity.LightActivity;
 import com.lumhue.karskrin.lumhue.Adapter.LumhuemodelAdapter;
-import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
+import com.lumhue.karskrin.lumhue.Singleton;
 import com.lumhue.karskrin.lumhue.model.Lumhuemodel;
 
 import java.util.ArrayList;
@@ -75,7 +75,7 @@ public class LightsFragment extends Fragment {
             }
         });
 
-        get(MainActivity.token);
+        get(Singleton.token);
     }
 
     public void get(final String token) {

@@ -19,8 +19,8 @@ import com.google.gson.GsonBuilder;
 import com.lumhue.karskrin.lumhue.API.Lumhueapi;
 import com.lumhue.karskrin.lumhue.Activity.AmbianceActivity;
 import com.lumhue.karskrin.lumhue.Adapter.AmbianceAdapter;
-import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
+import com.lumhue.karskrin.lumhue.Singleton;
 import com.lumhue.karskrin.lumhue.model.AmbianceApplyResponse;
 import com.lumhue.karskrin.lumhue.model.AmbianceModel;
 import com.lumhue.karskrin.lumhue.model.RequestCreateAmbiance;
@@ -90,7 +90,7 @@ public class AmbiancesFragment extends Fragment {
                 builder.excludeFieldsWithoutExposeAnnotation();
                 builder.disableHtmlEscaping();
                 final Gson gson = builder.create();
-                RequestCreateAmbiance r = new RequestCreateAmbiance(MainActivity.token, am);
+                RequestCreateAmbiance r = new RequestCreateAmbiance(Singleton.token, am);
                 String json = gson.toJson(r);
 
                 RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(getResources().getString(R.string.api)).build();
@@ -99,7 +99,7 @@ public class AmbiancesFragment extends Fragment {
                     @Override
                     public void success(AmbianceApplyResponse ambianceApplyResponse, Response response) {
                         Log.v("Ambiance activity", "It worked");
-                        get(MainActivity.token);
+                        get(Singleton.token);
                     }
 
                     @Override
@@ -111,7 +111,7 @@ public class AmbiancesFragment extends Fragment {
             }
         });
 
-        get(MainActivity.token);
+        get(Singleton.token);
     }
 
     public void get(final String token) {

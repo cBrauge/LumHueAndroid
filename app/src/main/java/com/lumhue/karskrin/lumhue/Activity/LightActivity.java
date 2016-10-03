@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.lumhue.karskrin.lumhue.API.Lumhueapi;
-import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
+import com.lumhue.karskrin.lumhue.Singleton;
 import com.lumhue.karskrin.lumhue.model.Lumhuemodel;
 import com.lumhue.karskrin.lumhue.model.Rgb;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
@@ -114,7 +114,7 @@ public class LightActivity extends BaseActivity {
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
         final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
         Log.v("LIGHTS activity reach: ", reachable.toString());
-        lumhueapi.postLights(MainActivity.token, "rgba(" + model.rgb.r + ", " + model.rgb.g + ", " + model.rgb.b + ")", position + 1, reachable.toString(), new Callback<Lumhuemodel>() {
+        lumhueapi.postLights(Singleton.token, "rgba(" + model.rgb.r + ", " + model.rgb.g + ", " + model.rgb.b + ")", position + 1, reachable.toString(), new Callback<Lumhuemodel>() {
             @Override
             public void success(Lumhuemodel lumhuemodel, Response response) {
                 Log.v("LIGHTS activity", "It works");

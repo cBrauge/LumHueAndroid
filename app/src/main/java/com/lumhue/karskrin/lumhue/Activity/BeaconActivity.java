@@ -16,8 +16,8 @@ import com.estimote.sdk.cloud.EstimoteCloud;
 import com.estimote.sdk.cloud.model.NearableInfo;
 import com.estimote.sdk.exception.EstimoteServerException;
 import com.lumhue.karskrin.lumhue.Adapter.BeaconAdapter;
-import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
+import com.lumhue.karskrin.lumhue.Singleton;
 import com.lumhue.karskrin.lumhue.model.BeaconModel;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketAdapter;
@@ -91,7 +91,7 @@ public class BeaconActivity extends BaseActivity {
                     String str = "{ \"protocol\" : \"chat\", "
                             + "\"type\" : \"auth\", "
                             + "\"data\" : { \"name\" : \"root\" }, "
-                            + "\"token\" : \"" + MainActivity.token + "\""
+                            + "\"token\" : \"" + Singleton.token + "\""
                             + "}";
                     websocket.sendText(str);
                 }

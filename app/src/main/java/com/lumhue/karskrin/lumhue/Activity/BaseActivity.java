@@ -51,27 +51,22 @@ public class BaseActivity extends AppCompatActivity {
                     case 0:
                         intent = new Intent(getApplicationContext(), LightsActivity.class);
                         startActivity(intent);
-                        finish();
                         break;
                     case 1:
                         intent = new Intent(getApplicationContext(), LightsActivity.class);
                         startActivity(intent);
-                        finish();
                         break;
                     case 2:
                         intent = new Intent(getApplicationContext(), AmbiancesActivity.class);
                         startActivity(intent);
-                        finish();
                         break;
                     case 3:
                         intent = new Intent(getApplicationContext(), BeaconActivity.class);
                         startActivity(intent);
-                        finish();
                         break;
                     case 4:
                         intent = new Intent(getApplicationContext(), SyncActivity.class);
                         startActivity(intent);
-                        finish();
                         break;
                     default:
                         break;
@@ -117,10 +112,5 @@ public class BaseActivity extends AppCompatActivity {
         // Handle your other action bar items...
 
         return super.onOptionsItemSelected(item);
-    }
-    @Override
-    public void onBackPressed()
-    {
-        System.exit(0);
-    }
+    };
 }

@@ -1,5 +1,6 @@
 package com.lumhue.karskrin.lumhue.Adapter;
 
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ public class LumHueBeaconmodelAdapter extends ArrayAdapter<LumHueBeaconModel> {
 
         LumHueBeaconModel model = beacons.get(position);
         holder.txtview.setText(model.uuid);
+        holder.txtview.setTextColor(ContextCompat.getColor(context.getActivity(), model.isSync ? android.R.color.holo_green_light : android.R.color.holo_red_light));
 
         return row;
     }

@@ -11,8 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
+            android:name=".Activity.BaseActivity"
+            android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".Activity.LoginActivity"
             android:theme="@style/AppTheme.Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,22 +23,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.BaseActivity"
-            android:theme="@style/AppTheme.Dark" />
-        <activity
-            android:name=".Activity.LoginActivity"
-            android:theme="@style/AppTheme.Dark" />
-        <activity
             android:name=".Activity.SignupActivity"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Activity.LightsActivity"
+            android:label="@string/title_activity_lights"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Activity.LightActivity"
+            android:label="@string/title_activity_lights"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Activity.AmbiancesActivity"
+            android:label="@string/title_activity_ambiance"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Activity.AmbianceActivity"

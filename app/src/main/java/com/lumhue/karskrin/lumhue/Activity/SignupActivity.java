@@ -14,8 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lumhue.karskrin.lumhue.API.Lumhueapi;
-import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
+import com.lumhue.karskrin.lumhue.Singleton;
 import com.lumhue.karskrin.lumhue.model.LoginResponseDTO;
 
 import butterknife.ButterKnife;
@@ -96,7 +96,7 @@ public class SignupActivity extends Activity {
             @Override
             public void success(LoginResponseDTO dto, Response response) {
                 Log.v("Signup Activity", dto.getToken());
-                MainActivity.token = dto.getToken();
+                Singleton.token = dto.getToken();
                 onSignupSuccess();
             }
 

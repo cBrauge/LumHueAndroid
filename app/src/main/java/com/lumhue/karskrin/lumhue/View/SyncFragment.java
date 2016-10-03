@@ -1,6 +1,8 @@
 package com.lumhue.karskrin.lumhue.View;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,8 +16,8 @@ import android.widget.ProgressBar;
 
 import com.lumhue.karskrin.lumhue.API.Lumhueapi;
 import com.lumhue.karskrin.lumhue.Adapter.LumHueBeaconmodelAdapter;
-import com.lumhue.karskrin.lumhue.MainActivity;
 import com.lumhue.karskrin.lumhue.R;
+import com.lumhue.karskrin.lumhue.Singleton;
 import com.lumhue.karskrin.lumhue.model.LumHueBeaconModel;
 
 import java.util.ArrayList;
@@ -65,18 +67,42 @@ public class SyncFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                LumHueBeaconModel model = (LumHueBeaconModel) adapter.getAdapter().getItem(position);
-                sync(MainActivity.token, model.uuid, String.valueOf(position));
+                final LumHueBeaconModel model = (LumHueBeaconModel) adapter.getAdapter().getItem(position);
+                final int pos = position;
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Are you sure?");
+                builder.setCancelable(true);
+
+                builder.setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                sync(Singleton.token, model.uuid, String.valueOf(pos));
+                                dialog.cancel();
+                            }
+                        });
+
+                builder.setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert = builder.create();
+                alert.show();
             }
         });
 
-        get(MainActivity.token);
+        get(Singleton.token);
     }
 
     public void get(final String token) {
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
         final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
         pbar.setVisibility(View.VISIBLE);
+        adapterr.clear();
         lumhueapi.getBeacons(token, new Callback<List<LumHueBeaconModel>>() {
             @Override
             public void success(List<LumHueBeaconModel> lumHueBeaconModels, Response response) {
