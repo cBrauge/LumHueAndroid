@@ -19,7 +19,7 @@ public class SyncActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         super.onCreate(savedInstanceState);
         LayoutInflater inflater = (LayoutInflater) this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View contentView = inflater.inflate(R.layout.activity_sync, null, false);
+        View contentView = inflater.inflate(R.layout.activity_syncs, null, false);
         swipeLayout = (SwipeRefreshLayout) contentView.findViewById(R.id.swipe_container_sync);
         swipeLayout.setOnRefreshListener(this);
         swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright,

@@ -1,7 +1,6 @@
 package com.lumhue.karskrin.lumhue.Adapter;
 
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
