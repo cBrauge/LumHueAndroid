@@ -50,7 +50,13 @@ public class LumHueBeaconModel {
     @SerializedName("uuid")
     @Expose
     public String uuid;
+    @SerializedName("lh_id")
+    @Expose
+    public String lh_id;
     @SerializedName("isSync")
     @Expose
     public Boolean isSync;
+    @SerializedName("data")
+    @Expose
+    public Integer data;
 }

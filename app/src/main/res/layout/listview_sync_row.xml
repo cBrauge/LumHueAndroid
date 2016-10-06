@@ -14,19 +14,42 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
-        android:layout_weight="0.15"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/txtRow"
+        <ImageView
+            android:id="@+id/imageNearable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_horizontal"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="12sp" />
+            android:src="@drawable/ic_nearable"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right">
+            <TextView
+                android:id="@+id/beaconName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/beaconUuid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_toRightOf="@id/beaconName"
+                android:layout_marginLeft="10dp"
+                android:text="Uuid"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/beaconLhid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="lhid"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="12sp"
+                android:layout_below="@+id/beaconName"/>
+        </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>
