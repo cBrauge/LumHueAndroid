@@ -17,6 +17,8 @@ import com.lumhue.karskrin.lumhue.API.Lumhueapi;
 import com.lumhue.karskrin.lumhue.R;
 import com.lumhue.karskrin.lumhue.Singleton;
 import com.lumhue.karskrin.lumhue.model.Lumhuemodel;
+import com.lumhue.karskrin.lumhue.model.Request;
+import com.lumhue.karskrin.lumhue.model.RequestPostLight;
 import com.lumhue.karskrin.lumhue.model.Rgb;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 
@@ -88,7 +90,7 @@ public class LightActivity extends BaseActivity {
                   /* Show color picker dialog */
                 cp.show();
 
-    /* On Click listener for the dialog, when the user select the color */
+        /* On Click listener for the dialog, when the user select the color */
                 Button okColor = (Button) cp.findViewById(R.id.okColorButton);
                 okColor.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -113,8 +115,11 @@ public class LightActivity extends BaseActivity {
     private void post(final Lumhuemodel model, Boolean reachable) {
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
         final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
+        System.out.println("LIGHTS act bfr request" + model.rgbhex);
+        Log.v("LIGHTS act bfr request", "" + model.rgb);
+        RequestPostLight r = new RequestPostLight(Singleton.token, "rgb(" + model.rgb.r.intValue() + "," + model.rgb.g.intValue() + "," + model.rgb.b.intValue() + ")", position + 1, reachable.toString());
         Log.v("LIGHTS activity reach: ", reachable.toString());
-        lumhueapi.postLights(Singleton.token, "rgba(" + model.rgb.r + ", " + model.rgb.g + ", " + model.rgb.b + ")", position + 1, reachable.toString(), new Callback<Lumhuemodel>() {
+        lumhueapi.postLights(r, new Callback<Lumhuemodel>() {
             @Override
             public void success(Lumhuemodel lumhuemodel, Response response) {
                 Log.v("LIGHTS activity", "It works");

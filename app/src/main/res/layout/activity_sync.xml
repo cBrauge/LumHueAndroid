@@ -8,72 +8,59 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:background="@drawable/relative_layout_rounded">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Current id: "
-            android:id="@+id/currentid"/>
+            android:id="@+id/currentId"
+            android:textColor="#2C2C2C"/>
         <TextView
             android:id="@+id/syncId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/currentid"/>
+            android:layout_toRightOf="@id/currentId"
+            android:textColor="#2C2C2C"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/syncId"
-            android:text="To synchronise beacons:
-            - Put your phone near the beacon you want to sync
-            - Click on start and wait...
-            - Select the good beacon... It's done!"/>
+            android:text="@string/activity_sync_desc"
+            android:textColor="#2C2C2C"/>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp">
-        <TextView
-            android:id="@+id/isThisYourBeacon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Is this your beacon?"
-            android:layout_centerHorizontal="true"/>
+        android:layout_height="wrap_content"
+        android:paddingTop="50dp"
+        android:paddingBottom="50dp"
+        android:background="@drawable/relative_layout_rounded"
+        android:layout_marginTop="15dp">
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/isThisYourBeacon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:id="@+id/syncImage"
-            android:src="@drawable/ic_nearable"
-            android:layout_centerHorizontal="true"/>
+            android:src="@drawable/nearable"
+            android:layout_centerHorizontal="true"
+            android:textColor="#2C2C2C"/>
         <TextView
             android:id="@+id/syncBeaconName"
             android:layout_below="@id/syncImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:textColor="#2C2C2C"/>
         <Button
             android:id="@+id/syncButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/syncBeaconName"
-            android:text="Start"
+            android:text="synchronize"
             android:background="@color/materialcolorpicker__green"
-            android:layout_centerHorizontal="true"/>
-        <TextView
-            android:id="@+id/syncRetryText"
-            android:layout_below="@id/syncButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="If not, it is possible to try to search again"
-            android:layout_centerHorizontal="true"/>
-        <Button
-            android:id="@+id/syncButtonRetry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/syncRetryText"
-            android:background="@color/materialcolorpicker__red"
-            android:text="Retry?"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:textColor="#2C2C2C"/>
     </RelativeLayout>
 </LinearLayout>

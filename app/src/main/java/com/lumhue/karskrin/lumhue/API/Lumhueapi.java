@@ -7,6 +7,7 @@ import com.lumhue.karskrin.lumhue.model.LumHueBeaconModel;
 import com.lumhue.karskrin.lumhue.model.Lumhuemodel;
 import com.lumhue.karskrin.lumhue.model.Request;
 import com.lumhue.karskrin.lumhue.model.RequestCreateAmbiance;
+import com.lumhue.karskrin.lumhue.model.RequestPostLight;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,10 +25,9 @@ public interface Lumhueapi {
         //here is the other url part.best way is to start using /
     void getLights(@Query("access_token") String token, Callback<List<Lumhuemodel>> response);
     //response is the response from the server which is now in the POJO
-    @FormUrlEncoded
     @POST("/lights")
     //here is the other url part.best way is to start using /
-    void postLights(@Field("access_token") String token, @Field("color") String rgb, @Field("id") Integer id, @Field("on") String on, Callback<Lumhuemodel> response);
+    void postLights(@Body RequestPostLight request, Callback<Lumhuemodel> response);
     //response is the response from the server which is now in the POJO
 
     // Function to login
@@ -66,8 +66,8 @@ public interface Lumhueapi {
     @GET("/beacons/all")
     void getBeacons(@Query("access_token") String token, Callback<List<LumHueBeaconModel>> response);
 
-    //Sync a beacon
+    //Sync a beacon_dialog_layout.xml
     @FormUrlEncoded
     @POST("/beacons/sync")
-    void syncBeacon(@Field("access_token") String token, @Field("beacon_id") String id, @Field("beacon_uuid") String uuid, Callback<List<LumHueBeaconModel>> response);
+    void syncBeacon(@Field("access_token") String token, @Field("beacon_id") String id, @Field("beacon_uuid") String uuid, @Field("data") Integer data, Callback<List<LumHueBeaconModel>> response);
 }

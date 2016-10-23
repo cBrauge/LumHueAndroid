@@ -65,7 +65,7 @@ public class BaseActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case 4:
-                        intent = new Intent(getApplicationContext(), SyncActivity.class);
+                        intent = new Intent(getApplicationContext(), SyncsActivity.class);
                         startActivity(intent);
                         break;
                     default:

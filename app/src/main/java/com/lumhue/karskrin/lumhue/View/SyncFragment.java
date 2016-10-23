@@ -3,6 +3,7 @@ package com.lumhue.karskrin.lumhue.View;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.google.gson.Gson;
 import com.lumhue.karskrin.lumhue.API.Lumhueapi;
+import com.lumhue.karskrin.lumhue.Activity.AmbianceActivity;
+import com.lumhue.karskrin.lumhue.Activity.SyncActivity;
 import com.lumhue.karskrin.lumhue.Adapter.LumHueBeaconmodelAdapter;
 import com.lumhue.karskrin.lumhue.R;
 import com.lumhue.karskrin.lumhue.Singleton;
@@ -69,29 +73,10 @@ public class SyncFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
                 final LumHueBeaconModel model = (LumHueBeaconModel) adapter.getAdapter().getItem(position);
                 final int pos = position;
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setMessage("Are you sure?");
-                builder.setCancelable(true);
-
-                builder.setPositiveButton(
-                        "Yes",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                sync(Singleton.token, model.uuid, String.valueOf(pos));
-                                dialog.cancel();
-                            }
-                        });
-
-                builder.setNegativeButton(
-                        "No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-                AlertDialog alert = builder.create();
-                alert.show();
+                Intent intent = new Intent(getActivity(), SyncActivity.class);
+                intent.putExtra("position", position);
+                intent.putExtra("model", new Gson().toJson(adapter.getItemAtPosition(position)));
+                startActivity(intent);
             }
         });
 
@@ -110,25 +95,6 @@ public class SyncFragment extends Fragment {
                     adapter.add(entry);
                     adapterr.notifyDataSetChanged();
                 }
-                pbar.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                String tv = error.getMessage();
-                Log.v("Sync fragment", tv);
-                pbar.setVisibility(View.INVISIBLE);
-            }
-        });
-    }
-
-    public void sync(final String token, String uuid, String id) {
-        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
-        final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
-        pbar.setVisibility(View.VISIBLE);
-        lumhueapi.syncBeacon(token, id, uuid, new Callback<List<LumHueBeaconModel>>() {
-            @Override
-            public void success(List<LumHueBeaconModel> lumHueBeaconModels, Response response) {
                 pbar.setVisibility(View.INVISIBLE);
             }
 

@@ -66,6 +66,8 @@ public class LoginActivity extends Activity {
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });
+        //pl.dagues@gmail.com
+        //dagues_p@yaka.epita.fr"
         _emailText.setText("dagues_p@yaka.epita.fr");
         _passwordText.setText("coucou42");
     }

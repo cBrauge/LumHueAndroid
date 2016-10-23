@@ -25,4 +25,10 @@
     <string name="title_activity_ambiance">Ambiances</string>
     <string name="title_activity_beacon">Beacons</string>
     <string name="title_activity_lights">Lights</string>
+    <string name="title_activity_sync">Sync</string>
+    <string name="activity_sync_desc">To synchronise beacons:\n\t
+            - Put your phone near the beacon you want to sync\n\t
+            - Click on start and wait...\n\t
+            - Select the good beacon... It\'s done!</string>
+
 </resources>

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lumhue.karskrin.lumhue.R;
+import com.lumhue.karskrin.lumhue.Singleton;
 import com.lumhue.karskrin.lumhue.View.SyncFragment;
 import com.lumhue.karskrin.lumhue.model.LumHueBeaconModel;
 
@@ -55,8 +56,11 @@ public class LumHueBeaconmodelAdapter extends ArrayAdapter<LumHueBeaconModel> {
         holder.beaconName.setText(model.itemName);
         holder.beaconLhid.setText(model.lh_id);
 
-        holder.beaconImage.getDrawable().setColorFilter(getColorFromId(model.data), PorterDuff.Mode.MULTIPLY);
+        // Set color of the beacon_dialog_layout.xml according to the color
+        if (model.data != null)
+            holder.beaconImage.setColorFilter(Singleton.getColorFromId(model.data), PorterDuff.Mode.MULTIPLY);
 
+        System.out.println(Singleton.getColorFromId(model.data));
         return row;
     }
 
@@ -68,35 +72,5 @@ public class LumHueBeaconmodelAdapter extends ArrayAdapter<LumHueBeaconModel> {
         LumHueBeaconModel model;
     }
 
-    public int getColorFromId(Integer i)
-    {
-        switch (i) {
-            case 0:
-                return getContext().getResources().getColor(R.color.white);
-            case 1:
-                return Color.parseColor("#71edca");
-            case 2:
-                return Color.parseColor("#5fd5e8");
-            case 3:
-                return Color.parseColor("#4f06c3");
-            case 4:
-                return Color.parseColor("#F06496");
-            case 5:
-                return Color.parseColor("#ff9ec3");
-            case 6:
-                return Color.parseColor("#ffFF00");
-            case 7:
-                return Color.parseColor("#148C8C");
-            case 8:
-                return Color.parseColor("#C8C8F0");
-            case 9:
-                return getContext().getResources().getColor(R.color.white);
-            case 10:
-                return getContext().getResources().getColor(R.color.black);
-            case 11:
-                return getContext().getResources().getColor(R.color.white);
-            default:
-                return getContext().getResources().getColor(R.color.white);
-        }
-    }
+
 }
