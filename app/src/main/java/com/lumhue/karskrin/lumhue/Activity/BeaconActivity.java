@@ -94,9 +94,12 @@ public class BeaconActivity extends BaseActivity {
                             + "\"token\" : \"" + Singleton.token + "\""
                             + "}";
                     websocket.sendText(str);
-                }
-            });
 
+                    System.out.println("BITEBITEBITE");
+                }
+
+
+            });
             ws.connectAsynchronously();
         } catch (Exception e) {
             e.printStackTrace();

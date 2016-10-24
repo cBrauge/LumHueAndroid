@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.github.nkzawa.emitter.Emitter;
 import com.google.gson.Gson;
 import com.lumhue.karskrin.lumhue.API.Lumhueapi;
 import com.lumhue.karskrin.lumhue.Activity.LightActivity;
@@ -21,6 +22,7 @@ import com.lumhue.karskrin.lumhue.R;
 import com.lumhue.karskrin.lumhue.Singleton;
 import com.lumhue.karskrin.lumhue.model.Lumhuemodel;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,12 @@ import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LightsFragment extends Fragment {
     Button click;
@@ -37,12 +45,41 @@ public class LightsFragment extends Fragment {
     private ListView mListView;
     private ArrayList<Lumhuemodel> adapter;
     private LumhuemodelAdapter adapterr;
+    private Socket mSocket;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         API = getResources().getString(R.string.api);
+        {
+            try {
+                mSocket = IO.socket("https://calen.mr-calen.eu/socket.io");
+
+                mSocket.connect();
+                JSONObject jo = new JSONObject();
+                jo.put("token", Singleton.token);
+                mSocket.emit("auth", jo);
+                mSocket.on("message", onNewMessage);
+            } catch (URISyntaxException e) {
+                System.err.println(e);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
+    private Emitter.Listener onNewMessage = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    get(Singleton.token);
+                }
+            });
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -101,4 +138,18 @@ public class LightsFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mSocket.off("message", onLogin);
+    }
+
+    private Emitter.Listener onLogin = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            JSONObject data = (JSONObject) args[0];
+        }
+    };
 }
+
