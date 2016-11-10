@@ -91,9 +91,12 @@ public class SyncFragment extends Fragment {
         lumhueapi.getBeacons(token, new Callback<List<LumHueBeaconModel>>() {
             @Override
             public void success(List<LumHueBeaconModel> lumHueBeaconModels, Response response) {
+                Singleton.beacons.clear();
+                Singleton.getBeaconsFromLumHue();
                 for (LumHueBeaconModel entry : lumHueBeaconModels) {
                     adapter.add(entry);
                     adapterr.notifyDataSetChanged();
+                    Singleton.addLhidBid(entry.lh_id, entry.uuid);
                 }
                 pbar.setVisibility(View.INVISIBLE);
             }

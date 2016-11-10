@@ -67,8 +67,8 @@ public class LoginActivity extends Activity {
             }
         });
         //pl.dagues@gmail.com
-        //dagues_p@yaka.epita.fr"
-        _emailText.setText("dagues_p@yaka.epita.fr");
+        //dagues_p@yaka.epita.fr
+        _emailText.setText("pl.dagues@gmail.com");
         _passwordText.setText("coucou42");
     }
 
@@ -102,7 +102,7 @@ public class LoginActivity extends Activity {
             @Override
             public void success(LoginResponseDTO dto, Response response) {
                 Log.v("Login Activity", dto.getToken());
-                Singleton.token = dto.getToken();
+                Singleton.setToken(dto.getToken());
                 onLoginSuccess();
             }
 

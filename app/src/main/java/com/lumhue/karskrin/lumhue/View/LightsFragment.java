@@ -1,7 +1,11 @@
 package com.lumhue.karskrin.lumhue.View;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,12 +42,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LightsFragment extends Fragment {
-    Button click;
-    ProgressBar pbar;
     private String API;
     private LinearLayout mLayout;
     private ListView mListView;
-    private ArrayList<Lumhuemodel> adapter;
+    private ArrayList<Lumhuemodel> lights_array;
     private LumhuemodelAdapter adapterr;
     private Socket mSocket;
 
@@ -75,6 +77,7 @@ public class LightsFragment extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    System.out.println("BITEBITE");
                     get(Singleton.token);
                 }
             });
@@ -93,14 +96,11 @@ public class LightsFragment extends Fragment {
         super.onStart();
         // Inflate the layout for this fragment
         mLayout = (LinearLayout) getView().findViewById(R.id.lightsLayout);
-        click = (Button) getView().findViewById(R.id.button);
-        pbar = (ProgressBar) getView().findViewById(R.id.pb);
         mListView = (ListView) getView().findViewById(R.id.listView);
 
-        adapter = new ArrayList<>();
-        adapterr = new LumhuemodelAdapter(this, R.layout.listview_light_row, adapter);
+        lights_array = new ArrayList<>();
+        adapterr = new LumhuemodelAdapter(this, R.layout.listview_light_row, lights_array);
         mListView.setAdapter(adapterr);
-        pbar.setVisibility(View.INVISIBLE);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -118,23 +118,42 @@ public class LightsFragment extends Fragment {
     public void get(final String token) {
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
         final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
-        pbar.setVisibility(View.VISIBLE);
-        adapterr.clear();
         lumhueapi.getLights(token, new Callback<List<Lumhuemodel>>() {
             @Override
-            public void success(List<Lumhuemodel> lumhuemodel, Response response) {
-                for (Lumhuemodel entry : lumhuemodel) {
-                    adapter.add(entry);
-                    adapterr.notifyDataSetChanged();
+            public void success(List<Lumhuemodel> lumhuemodels, Response response) {
+                if (lights_array.size() == 0)
+                    adapterr.addAll(lumhuemodels);
+                else
+                {
+                    for (int i = 0; i < lumhuemodels.size(); i++)
+                    {
+
+                        boolean not_available = (!lights_array.get(i).state.reachable || !lights_array.get(i).state.on);
+                        int color = Color.rgb(Math.max(0, lights_array.get(i).rgb.r.intValue() - (not_available ? 150 : 0)), Math.max(0, lights_array.get(i).rgb.g.intValue() - (not_available ? 150 : 0)), Math.max(0, lights_array.get(i).rgb.b.intValue() - (not_available ? 150 : 0)));
+                        boolean not_available_To = (!lumhuemodels.get(i).state.reachable || !lumhuemodels.get(i).state.on);
+                        int colorTo = Color.rgb(Math.max(0, lumhuemodels.get(i).rgb.r.intValue() - (not_available_To ? 150 : 0)), Math.max(0, lumhuemodels.get(i).rgb.g.intValue() - (not_available_To ? 150 : 0)), Math.max(0, lumhuemodels.get(i).rgb.b.intValue() - (not_available_To ? 150 : 0)));
+                        /*
+                        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), color, colorTo);
+                        colorAnimation.setDuration(2500); // milliseconds
+                        final int j = i;
+                        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                                                             @Override
+                                                             public void onAnimationUpdate(ValueAnimator animator) {
+                                                                 adapterr.getItem(j).hol.colorCircle.setColorFilter((int) animator.getAnimatedValue());
+                                                             }
+                        }
+                        */
+                    }
+                    adapterr = new LumhuemodelAdapter(LightsFragment.this, R.layout.listview_light_row, lights_array);
+                    mListView.setAdapter(adapterr);
                 }
-                pbar.setVisibility(View.INVISIBLE);
+                adapterr.notifyDataSetChanged();
             }
 
             @Override
             public void failure(RetrofitError error) {
                 String tv = error.getMessage();
                 Log.v("LIGHTS fragment", tv);
-                pbar.setVisibility(View.INVISIBLE);
             }
         });
     }

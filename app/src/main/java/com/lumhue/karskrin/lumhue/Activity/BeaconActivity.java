@@ -32,7 +32,6 @@ public class BeaconActivity extends BaseActivity {
     List<BeaconModel> beaconModels = new ArrayList<>();
     private BeaconManager beaconManager;
     private String scanId;
-    private WebSocket ws;
     private ListView beacons;
 
     @Override
@@ -53,7 +52,6 @@ public class BeaconActivity extends BaseActivity {
                 beaconModels.clear();
                 for (Nearable n : nearables) {
                     final Utils.Proximity distance = Utils.computeProximity(n);
-                    ws.sendText(distance.toString());
 
                     Log.v("beacons", "" + distance);
                     EstimoteCloud.getInstance().fetchNearableDetails(n.identifier, new CloudCallback<NearableInfo>() {
@@ -71,7 +69,6 @@ public class BeaconActivity extends BaseActivity {
                             Log.e("beacons", "BEACON INFO ERROR: " + e);
                         }
                     });
-
                 }
             }
         });
@@ -83,27 +80,6 @@ public class BeaconActivity extends BaseActivity {
             }
         });
 
-        try {
-            ws = new WebSocketFactory().createSocket("wss://lumhue.mr-calen.eu/ws", 5000);
-            ws.addListener(new WebSocketAdapter() {
-                @Override
-                public void onConnected(WebSocket websocket, Map<String, List<String>> headers) throws Exception {
-                    String str = "{ \"protocol\" : \"chat\", "
-                            + "\"type\" : \"auth\", "
-                            + "\"data\" : { \"name\" : \"root\" }, "
-                            + "\"token\" : \"" + Singleton.token + "\""
-                            + "}";
-                    websocket.sendText(str);
-
-                    System.out.println("BITEBITEBITE");
-                }
-
-
-            });
-            ws.connectAsynchronously();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

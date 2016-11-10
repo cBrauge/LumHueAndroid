@@ -1,6 +1,11 @@
 package com.lumhue.karskrin.lumhue.Adapter;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +21,11 @@ import com.lumhue.karskrin.lumhue.model.Rgb;
 
 import java.util.List;
 
+import static android.graphics.drawable.GradientDrawable.LINEAR_GRADIENT;
+
 
 public class LumhuemodelAdapter extends ArrayAdapter<Lumhuemodel> {
-    List<Lumhuemodel> lights = null;
+    public List<Lumhuemodel> lights = null;
     LightsFragment context;
     int layoutResourceId;
     String API = "https://calen.mr-calen.eu/api";
@@ -33,7 +40,7 @@ public class LumhuemodelAdapter extends ArrayAdapter<Lumhuemodel> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        LumhuemodelHolder holder;
+        final LumhuemodelHolder holder;
         if (row == null) {
             LayoutInflater inflater = (context.getActivity()).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
@@ -44,16 +51,29 @@ public class LumhuemodelAdapter extends ArrayAdapter<Lumhuemodel> {
 
             holder.model = lights.get(position);
             Rgb rgb = holder.model.rgb;
-            int color = Color.rgb(rgb.r.intValue(), rgb.g.intValue(), rgb.b.intValue());
+            boolean not_available = (!holder.model.state.reachable || !holder.model.state.on);
+            int color = Color.rgb(Math.max(0, rgb.r.intValue() - (not_available ? 150 : 0)), Math.max(0, rgb.g.intValue() - (not_available ? 150 : 0)), Math.max(0, rgb.b.intValue() - (not_available ? 150 : 0)));
+            System.out.println(not_available + " " + rgb.r.intValue() + " " + rgb.g.intValue() + " " + rgb.b.intValue());
 
-            if (!holder.model.state.reachable)
-                color = 0;
-            GradientDrawable gd = (GradientDrawable) holder.colorCircle.getDrawable();
-            gd.setStroke(1, Color.WHITE);
-            gd.setColor(color);
             final LumhuemodelHolder finalHolder = holder;
-
+            final int color_final = color;
             row.setTag(holder);
+
+            //int colorTo = Color.rgb(255, 0, 0);
+            ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), color, color);
+            colorAnimation.setDuration(2500); // milliseconds
+            colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animator) {
+                    holder.colorCircle.setColorFilter((int) animator.getAnimatedValue());
+                    GradientDrawable gd = (GradientDrawable) holder.colorCircle.getDrawable();
+                    gd.setStroke(1, Color.parseColor("#2C2C2C"));
+                    gd.setColor(color_final);
+                }
+
+            });
+            colorAnimation.start();
+
         } else {
             holder = (LumhuemodelHolder) row.getTag();
         }

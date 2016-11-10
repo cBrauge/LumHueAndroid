@@ -2,12 +2,34 @@ package com.lumhue.karskrin.lumhue;
 
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.view.View;
 
 import com.estimote.sdk.Nearable;
 import com.estimote.sdk.cloud.model.NearableInfo;
+import com.lumhue.karskrin.lumhue.API.Lumhueapi;
+import com.lumhue.karskrin.lumhue.model.LumHueBeaconModel;
+import com.neovisionaries.ws.client.WebSocket;
+import com.neovisionaries.ws.client.WebSocketAdapter;
+import com.neovisionaries.ws.client.WebSocketFactory;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class Singleton {
     public static String token;
+
+    public static String API = "https://calen.mr-calen.eu/api";
+    //lhid -> bid
+    public static Map<String, String> beacons = new HashMap<>();
+    // Use to tell lhid on enter
+    private static WebSocket ws;
     private static Singleton ourInstance = new Singleton();
 
     public static Singleton getInstance() {
@@ -15,6 +37,28 @@ public class Singleton {
     }
 
     private Singleton() {
+    }
+
+    public static void setToken(String tokenToAdd)
+    {
+        token = tokenToAdd;
+        getBeaconsFromLumHue();
+        authWebSocket();
+    }
+
+    public static String getBidFromLhid(String lhid)
+    {
+        return beacons.get(lhid);
+    }
+
+    public static void addLhidBid(String lhid, String bid)
+    {
+        if (lhid != null) {
+            beacons.put(lhid, bid);
+            String str = "{ \"type\" : \"beacon\", \"beacon\" : \"" + lhid + "\", \"action\" : \"enter\"" +
+                         ", \"token\" : \"" + Singleton.token + "\" }";
+            ws.sendText(str);
+        }
     }
 
     public static int getColorFromId(Integer i)
@@ -76,6 +120,46 @@ public class Singleton {
             default:
                 return 9;
 
+        }
+    }
+
+    public static void getBeaconsFromLumHue() {
+        RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(API).build();
+        final Lumhueapi lumhueapi = restAdapter.create(Lumhueapi.class);
+        lumhueapi.getBeacons(token, new Callback<List<LumHueBeaconModel>>() {
+            @Override
+            public void success(List<LumHueBeaconModel> lumHueBeaconModels, Response response) {
+                Singleton.beacons.clear();
+                for (LumHueBeaconModel entry : lumHueBeaconModels) {
+                    Singleton.addLhidBid(entry.lh_id, entry.uuid);
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                String tv = error.getMessage();
+            }
+        });
+    }
+
+    private static void authWebSocket()
+    {
+        try
+        {
+            ws = new WebSocketFactory().createSocket("wss://lumhue.mr-calen.eu/ws", 5000);
+            ws.addListener(new WebSocketAdapter() {
+                @Override
+                public void onConnected(WebSocket websocket, Map<String, List<String>> headers) throws Exception {
+                    String str = "{ \"protocol\" : \"chat\", "
+                            + "\"type\" : \"auth\", "
+                            + "\"data\" : { \"name\" : \"root\" }, "
+                            + "\"token\" : \"" + Singleton.token + "\"";
+                    websocket.sendText(str);
+                }
+            });
+            ws.connectAsynchronously();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

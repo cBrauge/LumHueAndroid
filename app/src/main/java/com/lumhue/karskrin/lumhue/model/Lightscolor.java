@@ -2,9 +2,6 @@ package com.lumhue.karskrin.lumhue.model;
 
 import com.google.gson.annotations.Expose;
 
-/**
- * Created by Karskrin on 06/06/2016.
- */
 public class Lightscolor {
     @Expose
     public Integer id;
