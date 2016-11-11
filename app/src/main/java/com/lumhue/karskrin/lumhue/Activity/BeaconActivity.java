@@ -46,6 +46,10 @@ public class BeaconActivity extends BaseActivity {
         beacons.setAdapter(beaconAdapter);
         EstimoteSDK.initialize(this, "lumhue-android-13x", "eaa13be8dcfc06390a1484bad0ace108");
         beaconManager = new BeaconManager(this);
+        scan(beaconAdapter);
+    }
+
+    private void scan(final BeaconAdapter beaconAdapter) {
         beaconManager.setNearableListener(new BeaconManager.NearableListener() {
             @Override
             public void onNearablesDiscovered(List<Nearable> nearables) {
@@ -79,7 +83,6 @@ public class BeaconActivity extends BaseActivity {
                 scanId = beaconManager.startNearableDiscovery();
             }
         });
-
     }
 
     @Override

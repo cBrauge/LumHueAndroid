@@ -60,7 +60,7 @@ public class LumHueBeaconmodelAdapter extends ArrayAdapter<LumHueBeaconModel> {
         if (model.data != null)
             holder.beaconImage.setColorFilter(Singleton.getColorFromId(model.data), PorterDuff.Mode.MULTIPLY);
 
-        System.out.println(Singleton.getColorFromId(model.data));
+        //System.out.println(Singleton.getColorFromId(model.data));
         return row;
     }
 

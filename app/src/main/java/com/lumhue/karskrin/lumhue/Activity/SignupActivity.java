@@ -96,7 +96,7 @@ public class SignupActivity extends Activity {
             @Override
             public void success(LoginResponseDTO dto, Response response) {
                 Log.v("Signup Activity", dto.getToken());
-                Singleton.setToken(dto.getToken());
+                Singleton.setToken(dto.getToken(), getApplicationContext());
                 onSignupSuccess();
             }
 

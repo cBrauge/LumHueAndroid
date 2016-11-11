@@ -102,7 +102,7 @@ public class LoginActivity extends Activity {
             @Override
             public void success(LoginResponseDTO dto, Response response) {
                 Log.v("Login Activity", dto.getToken());
-                Singleton.setToken(dto.getToken());
+                Singleton.setToken(dto.getToken(), getApplicationContext());
                 onLoginSuccess();
             }
 

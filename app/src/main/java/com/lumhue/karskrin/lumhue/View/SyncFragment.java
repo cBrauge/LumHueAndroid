@@ -96,7 +96,7 @@ public class SyncFragment extends Fragment {
                 for (LumHueBeaconModel entry : lumHueBeaconModels) {
                     adapter.add(entry);
                     adapterr.notifyDataSetChanged();
-                    Singleton.addLhidBid(entry.lh_id, entry.uuid);
+                    Singleton.addBidLhid(entry.uuid, entry.lh_id);
                 }
                 pbar.setVisibility(View.INVISIBLE);
             }
